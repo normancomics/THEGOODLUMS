@@ -1,0 +1,506 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>The GoodLums - Traits Explorer</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 20px;
+            color: #fff;
+        }
+
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        header {
+            text-align: center;
+            margin-bottom: 40px;
+            animation: fadeInDown 0.8s ease;
+        }
+
+        h1 {
+            font-size: 3.5em;
+            margin-bottom: 10px;
+            text-shadow: 3px 3px 6px rgba(0,0,0,0.3);
+            background: linear-gradient(45deg, #fff, #f0f0f0);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .subtitle {
+            font-size: 1.2em;
+            opacity: 0.9;
+            margin-bottom: 20px;
+        }
+
+        .collection-link {
+            display: inline-block;
+            background: rgba(255,255,255,0.2);
+            padding: 12px 30px;
+            border-radius: 50px;
+            text-decoration: none;
+            color: white;
+            font-weight: bold;
+            backdrop-filter: blur(10px);
+            border: 2px solid rgba(255,255,255,0.3);
+            transition: all 0.3s ease;
+            margin-top: 15px;
+        }
+
+        .collection-link:hover {
+            background: rgba(255,255,255,0.3);
+            transform: translateY(-2px);
+            box-shadow: 0 10px 25px rgba(0,0,0,0.2);
+        }
+
+        .stats {
+            display: flex;
+            justify-content: center;
+            gap: 30px;
+            margin-bottom: 40px;
+            flex-wrap: wrap;
+            animation: fadeIn 1s ease;
+        }
+
+        .stat-card {
+            background: rgba(255,255,255,0.15);
+            backdrop-filter: blur(10px);
+            padding: 20px 40px;
+            border-radius: 15px;
+            border: 2px solid rgba(255,255,255,0.2);
+            box-shadow: 0 8px 32px rgba(0,0,0,0.1);
+        }
+
+        .stat-number {
+            font-size: 2.5em;
+            font-weight: bold;
+            display: block;
+        }
+
+        .stat-label {
+            font-size: 0.9em;
+            opacity: 0.8;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .search-bar {
+            margin-bottom: 30px;
+            text-align: center;
+            animation: fadeIn 1.2s ease;
+        }
+
+        .search-input {
+            width: 100%;
+            max-width: 600px;
+            padding: 15px 25px;
+            font-size: 1.1em;
+            border: none;
+            border-radius: 50px;
+            background: rgba(255,255,255,0.95);
+            box-shadow: 0 10px 40px rgba(0,0,0,0.2);
+            outline: none;
+            transition: all 0.3s ease;
+        }
+
+        .search-input:focus {
+            transform: scale(1.02);
+            box-shadow: 0 15px 50px rgba(0,0,0,0.3);
+        }
+
+        .traits-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            gap: 20px;
+            animation: fadeInUp 1s ease;
+        }
+
+        .trait-category {
+            background: rgba(255,255,255,0.15);
+            backdrop-filter: blur(10px);
+            border-radius: 20px;
+            padding: 25px;
+            border: 2px solid rgba(255,255,255,0.2);
+            box-shadow: 0 8px 32px rgba(0,0,0,0.1);
+            transition: all 0.3s ease;
+            cursor: pointer;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .trait-category::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(45deg, rgba(255,255,255,0.1), transparent);
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+
+        .trait-category:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 40px rgba(0,0,0,0.2);
+            border-color: rgba(255,255,255,0.4);
+        }
+
+        .trait-category:hover::before {
+            opacity: 1;
+        }
+
+        .trait-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 15px;
+        }
+
+        .trait-name {
+            font-size: 1.3em;
+            font-weight: bold;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .trait-count {
+            background: rgba(255,255,255,0.3);
+            padding: 5px 15px;
+            border-radius: 20px;
+            font-weight: bold;
+            font-size: 1.1em;
+        }
+
+        .trait-button {
+            width: 100%;
+            padding: 12px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            border: 2px solid rgba(255,255,255,0.5);
+            color: white;
+            border-radius: 10px;
+            font-size: 1em;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-top: 10px;
+        }
+
+        .trait-button:hover {
+            background: linear-gradient(135deg, #764ba2 0%, #667eea 100%);
+            transform: scale(1.05);
+            box-shadow: 0 5px 20px rgba(0,0,0,0.3);
+        }
+
+        .trait-button:active {
+            transform: scale(0.98);
+        }
+
+        .rarity-indicator {
+            display: inline-block;
+            padding: 3px 10px;
+            border-radius: 5px;
+            font-size: 0.8em;
+            font-weight: bold;
+            margin-top: 8px;
+            text-transform: uppercase;
+        }
+
+        .rarity-legendary {
+            background: linear-gradient(135deg, #ffd700, #ffed4e);
+            color: #000;
+        }
+
+        .rarity-epic {
+            background: linear-gradient(135deg, #a855f7, #ec4899);
+            color: #fff;
+        }
+
+        .rarity-rare {
+            background: linear-gradient(135deg, #3b82f6, #06b6d4);
+            color: #fff;
+        }
+
+        .rarity-common {
+            background: rgba(255,255,255,0.3);
+            color: #fff;
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+            }
+            to {
+                opacity: 1;
+            }
+        }
+
+        @keyframes fadeInDown {
+            from {
+                opacity: 0;
+                transform: translateY(-30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .no-results {
+            text-align: center;
+            font-size: 1.5em;
+            padding: 60px;
+            opacity: 0.7;
+        }
+
+        @media (max-width: 768px) {
+            h1 {
+                font-size: 2.5em;
+            }
+
+            .traits-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .stats {
+                flex-direction: column;
+                gap: 15px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>🌟 THE GOODLUMS 🌟</h1>
+            <p class="subtitle">Explore Traits & Discover Your NFTs</p>
+            <a href="https://opensea.io/collection/thegoodlums" target="_blank" class="collection-link">
+                View Collection on OpenSea →
+            </a>
+        </header>
+
+        <div class="stats">
+            <div class="stat-card">
+                <span class="stat-number" id="totalCategories">0</span>
+                <span class="stat-label">Trait Categories</span>
+            </div>
+            <div class="stat-card">
+                <span class="stat-number" id="totalTraits">0</span>
+                <span class="stat-label">Total Traits</span>
+            </div>
+        </div>
+
+        <div class="search-bar">
+            <input type="text" class="search-input" id="searchInput" placeholder="🔍 Search traits...">
+        </div>
+
+        <div class="traits-grid" id="traitsGrid"></div>
+    </div>
+
+    <script>
+        // Organized trait data from the original file
+        const traitsData = {
+            "ACCESSORIES": 27,
+            "Accessories": 8,
+            "accessories": 2,
+            "ACCESSORY": 1,
+            "ADDICTED": 1,
+            "ADDICTION": 2,
+            "AGED": 1,
+            "ATTACK": 1,
+            "BACKGROUND": 1,
+            "Background": 2,
+            "background": 1,
+            "BELIEFS": 8,
+            "BONUS": 25,
+            "Bonus": 9,
+            "bonus": 1,
+            "BONUS CACTI": 1,
+            "BONUS GOODLUMS STARS": 1,
+            "bonus skill": 1,
+            "CLOTHING": 2,
+            "Clothing": 3,
+            "COLOR": 1,
+            "CURRENCY": 1,
+            "ERA": 3,
+            "EYES": 1,
+            "FACIAL HAIR": 1,
+            "FAVORITE HOBBY": 1,
+            "FAVORITE SLANG WORD": 1,
+            "FAVORITE SMELL": 1,
+            "Favorite Smell?": 1,
+            "Favorite Sound": 1,
+            "GANG AFFILIATION": 21,
+            "GANG AFFILIATIONS": 2,
+            "GANG-AFFILIATION": 5,
+            "Gang Affiliation": 1,
+            "Gang Affiliations": 5,
+            "Gang-Affiliation": 1,
+            "Gang-Affiliations": 2,
+            "gang affiliation": 1,
+            "GUPPY RACE": 1,
+            "HAIR": 2,
+            "HAIRSTYLE": 3,
+            "HAT": 7,
+            "HEADGEAR": 2,
+            "Headgear": 9,
+            "headgear": 1,
+            "HOBBIES": 5,
+            "HOMELAND": 26,
+            "Homeland": 6,
+            "HOOD PASS": 2,
+            "HOOD-PASS": 7,
+            "Hood-Pass": 3,
+            "Hood-Pass Valid": 1,
+            "Hood-Pass Validated": 1,
+            "HOODPASS": 1,
+            "IS THIS SHIT BASED?": 1,
+            "IS THIS SHIT EXPENSIVE": 13,
+            "IS THIS SHIT EXPENSIVE?": 7,
+            "IS THIS SHIT EXPENSIVE?": 1,
+            "IS THIS SHIT RARE?": 2,
+            "Is this dang thang expensive": 1,
+            "Is this shit expensive": 3,
+            "Is this shit expensive?": 2,
+            "JEWELRY": 3,
+            "Jewelry": 3,
+            "LAST TIME IN A MOVIE THEATER": 1,
+            "LEGAL STATUS": 2,
+            "Legal Status": 6,
+            "Legal-Status": 1,
+            "legal status": 1,
+            "LOCATION": 3,
+            "Location": 7,
+            "LOST MNEMONIC KEYS": 1,
+            "MAGIC": 8,
+            "Magic": 2,
+            "MAGIC CARPET": 1,
+            "MAGIC POWER": 2,
+            "MAGIC SUPER POWER": 1,
+            "MOUTH": 1,
+            "MUSIC": 1,
+            "NAME": 37,
+            "NERD LEVEL": 6,
+            "NERD-LEVEL": 4,
+            "PANTS": 1,
+            "PIERCINGS": 1,
+            "PROPAGANDA": 1,
+            "RACE": 11,
+            "Race": 9,
+            "race": 1,
+            "RARITY": 11,
+            "Rarity": 3,
+            "RUGPULL": 1,
+            "SECRET BONUS": 1,
+            "SECRET POWER": 2,
+            "SECRET PSYOP": 26,
+            "SECRET PSYOP:": 1,
+            "SECRET-PSYOP": 2,
+            "SHIRT": 1,
+            "SKILL": 1,
+            "Skills": 2,
+            "SMELLS LIKE": 1
+        };
+
+        // Normalize and consolidate traits
+        const consolidatedTraits = {};
+        Object.entries(traitsData).forEach(([key, value]) => {
+            const normalized = key.toUpperCase().trim();
+            consolidatedTraits[normalized] = (consolidatedTraits[normalized] || 0) + value;
+        });
+
+        // Sort by count (descending)
+        const sortedTraits = Object.entries(consolidatedTraits)
+            .sort((a, b) => b[1] - a[1]);
+
+        // Calculate stats
+        const totalCategories = sortedTraits.length;
+        const totalTraits = sortedTraits.reduce((sum, [_, count]) => sum + count, 0);
+
+        document.getElementById('totalCategories').textContent = totalCategories;
+        document.getElementById('totalTraits').textContent = totalTraits;
+
+        // Get rarity class based on count
+        function getRarityClass(count) {
+            if (count >= 30) return 'legendary';
+            if (count >= 20) return 'epic';
+            if (count >= 10) return 'rare';
+            return 'common';
+        }
+
+        // Get rarity label
+        function getRarityLabel(count) {
+            if (count >= 30) return 'Legendary';
+            if (count >= 20) return 'Epic';
+            if (count >= 10) return 'Rare';
+            return 'Common';
+        }
+
+        // Render traits
+        function renderTraits(filter = '') {
+            const grid = document.getElementById('traitsGrid');
+            const filtered = sortedTraits.filter(([name]) => 
+                name.toLowerCase().includes(filter.toLowerCase())
+            );
+
+            if (filtered.length === 0) {
+                grid.innerHTML = '<div class="no-results">No traits found</div>';
+                return;
+            }
+
+            grid.innerHTML = filtered.map(([name, count]) => {
+                const rarity = getRarityClass(count);
+                const rarityLabel = getRarityLabel(count);
+                const searchUrl = `https://opensea.io/collection/thegoodlums?search[stringTraits][0][name]=${encodeURIComponent(name)}`;
+
+                return `
+                    <div class="trait-category">
+                        <div class="trait-header">
+                            <div class="trait-name">${name}</div>
+                            <div class="trait-count">${count}</div>
+                        </div>
+                        <div class="rarity-indicator rarity-${rarity}">${rarityLabel}</div>
+                        <button class="trait-button" onclick="window.open('${searchUrl}', '_blank')">
+                            View on OpenSea
+                        </button>
+                    </div>
+                `;
+            }).join('');
+        }
+
+        // Search functionality
+        document.getElementById('searchInput').addEventListener('input', (e) => {
+            renderTraits(e.target.value);
+        });
+
+        // Initial render
+        renderTraits();
+    </script>
+</body>
+</html>
