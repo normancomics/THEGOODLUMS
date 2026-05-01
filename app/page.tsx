@@ -62,11 +62,11 @@ export default function Home() {
             style={{ fontFamily: 'VT323, monospace', fontSize: '22px', padding: '12px 32px', backgroundColor: '#0f0', color: '#0a0a0a', textDecoration: 'none', letterSpacing: '3px', fontWeight: 'bold', boxShadow: '0 0 20px #0f0' }}>
             🌊 BUY ON OPENSEA
           </a>
-          <a href="https://x.com/goodlumsnft" target="_blank" rel="noopener noreferrer"
+          <a href="https://x.com/thegoodlums" target="_blank" rel="noopener noreferrer"
             style={{ fontFamily: 'VT323, monospace', fontSize: '22px', padding: '12px 32px', border: '2px solid #0f0', color: '#0f0', textDecoration: 'none', letterSpacing: '3px' }}>
             𝕏 FOLLOW ON X
           </a>
-          <a href="https://warpcast.com/goodlums" target="_blank" rel="noopener noreferrer"
+          <a href="https://farcaster.xyz/~/channel/thegoodlums" target="_blank" rel="noopener noreferrer"
             style={{ fontFamily: 'VT323, monospace', fontSize: '22px', padding: '12px 32px', border: '2px solid #9400d3', color: '#9400d3', textDecoration: 'none', letterSpacing: '3px' }}>
             ⬡ FARCASTER
           </a>
@@ -95,12 +95,27 @@ export default function Home() {
           <h2 style={{ fontFamily: 'VT323, monospace', fontSize: '36px', color: '#ffd700', textShadow: '0 0 20px #ffd700', letterSpacing: '4px', marginBottom: '16px' }}>
             🔐 VIP GANG CHANNELS
           </h2>
-          <p style={{ fontFamily: 'VT323, monospace', fontSize: '18px', color: '#888', marginBottom: '32px' }}>
+          <p style={{ fontFamily: 'VT323, monospace', fontSize: '18px', color: '#888', marginBottom: '16px' }}>
             EXCLUSIVE ACCESS FOR HOOD PASS HOLDERS · BONUS AIRDROPS · INNER CIRCLE INTEL
           </p>
+          {/* Hood Pass purchase links */}
+          <div style={{ display: 'flex', justifyContent: 'center', gap: '12px', flexWrap: 'wrap', marginBottom: '32px' }}>
+            <a href="https://opensea.io/collection/the-goodlums-hood-pass" target="_blank" rel="noopener noreferrer"
+              style={{ fontFamily: 'VT323, monospace', fontSize: '16px', padding: '8px 20px', border: '1px solid #ffd700', color: '#ffd700', textDecoration: 'none', letterSpacing: '2px' }}>
+              🌊 HOOD PASS (OPENSEA)
+            </a>
+            <a href="https://mint.club/token/base/HOODPASS" target="_blank" rel="noopener noreferrer"
+              style={{ fontFamily: 'VT323, monospace', fontSize: '16px', padding: '8px 20px', border: '1px solid #cc5500', color: '#cc5500', textDecoration: 'none', letterSpacing: '2px' }}>
+              ⛏ HOOD PASS v2
+            </a>
+            <a href="https://mint.club/token/base/HOODPASS3" target="_blank" rel="noopener noreferrer"
+              style={{ fontFamily: 'VT323, monospace', fontSize: '16px', padding: '8px 20px', border: '1px solid #4169e1', color: '#4169e1', textDecoration: 'none', letterSpacing: '2px' }}>
+              ⛏ HOOD PASS v3
+            </a>
+          </div>
           <div style={{ display: 'flex', justifyContent: 'center', gap: '16px', flexWrap: 'wrap' }}>
-            <VIPLink href="https://t.me/goodlumsvip" label="VIP TELEGRAM" icon="📡" />
-            <VIPLink href="https://discord.gg/goodlumsvip" label="VIP DISCORD" icon="🎮" />
+            <VIPLink href="https://t.me/thegoodlums" label="VIP TELEGRAM" icon="📡" />
+            <VIPLink href="https://discord.gg/bdAuGjBy7" label="VIP DISCORD" icon="🎮" />
           </div>
         </div>
       </section>

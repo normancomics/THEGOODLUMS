@@ -54,9 +54,9 @@ export default function Footer() {
             <div style={{ display: 'flex', flexDirection: 'column', gap: '4px' }}>
               {[
                 { label: 'OPENSEA', href: 'https://opensea.io/collection/thegoodlums' },
-                { label: 'TWITTER/X', href: 'https://x.com/goodlumsnft' },
-                { label: 'FARCASTER', href: 'https://warpcast.com/goodlums' },
-                { label: 'DISCORD', href: 'https://discord.gg/goodlums' },
+                { label: 'TWITTER/X', href: 'https://x.com/thegoodlums' },
+                { label: 'FARCASTER', href: 'https://farcaster.xyz/~/channel/thegoodlums' },
+                { label: 'DISCORD', href: 'https://discord.gg/bdAuGjBy7' },
               ].map(({ label, href }) => (
                 <a key={label} href={href} target="_blank" rel="noopener noreferrer" style={{ color: '#888', fontSize: '13px', textDecoration: 'none', transition: 'color 0.2s' }}>
                   &gt; {label}

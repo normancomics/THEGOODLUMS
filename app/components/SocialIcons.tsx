@@ -71,10 +71,10 @@ export function BioLinkIcon() {
 export function SocialSidebar() {
   const socials = [
     { Icon: OpenSeaIcon, href: 'https://opensea.io/collection/thegoodlums', label: 'OpenSea' },
-    { Icon: TwitterIcon, href: 'https://x.com/goodlumsnft', label: 'Twitter/X' },
-    { Icon: DiscordIcon, href: 'https://discord.gg/goodlums', label: 'Discord' },
-    { Icon: FarcasterIcon, href: 'https://warpcast.com/goodlums', label: 'Farcaster' },
-    { Icon: TelegramIcon, href: 'https://t.me/goodlumsvip', label: 'Telegram' },
+    { Icon: TwitterIcon, href: 'https://x.com/thegoodlums', label: 'Twitter/X' },
+    { Icon: DiscordIcon, href: 'https://discord.gg/bdAuGjBy7', label: 'Discord' },
+    { Icon: FarcasterIcon, href: 'https://farcaster.xyz/~/channel/thegoodlums', label: 'Farcaster' },
+    { Icon: TelegramIcon, href: 'https://t.me/thegoodlums', label: 'Telegram' },
     { Icon: BioLinkIcon, href: 'https://bio.site/goodlums', label: 'Bio.link' },
   ];
 

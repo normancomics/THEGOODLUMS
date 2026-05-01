@@ -71,7 +71,7 @@ export default function VIPLink({ href, label, icon = '🔒' }: VIPLinkProps) {
             </p>
             <div style={{ display: 'flex', flexDirection: 'column', gap: '12px', marginBottom: '24px' }}>
               <a
-                href="https://opensea.io/collection/thegoodlums"
+                href="https://opensea.io/collection/the-goodlums-hood-pass"
                 target="_blank"
                 rel="noopener noreferrer"
                 style={{
@@ -85,7 +85,41 @@ export default function VIPLink({ href, label, icon = '🔒' }: VIPLinkProps) {
                   letterSpacing: '2px',
                 }}
               >
-                GET HOOD PASS ON OPENSEA
+                🌊 HOOD PASS ON OPENSEA
+              </a>
+              <a
+                href="https://mint.club/token/base/HOODPASS"
+                target="_blank"
+                rel="noopener noreferrer"
+                style={{
+                  display: 'block',
+                  backgroundColor: '#cc5500',
+                  color: '#fff',
+                  padding: '10px 20px',
+                  fontSize: '18px',
+                  fontWeight: 'bold',
+                  textDecoration: 'none',
+                  letterSpacing: '2px',
+                }}
+              >
+                ⛏ HOOD PASS v2 (MINT.CLUB)
+              </a>
+              <a
+                href="https://mint.club/token/base/HOODPASS3"
+                target="_blank"
+                rel="noopener noreferrer"
+                style={{
+                  display: 'block',
+                  backgroundColor: '#4169e1',
+                  color: '#fff',
+                  padding: '10px 20px',
+                  fontSize: '18px',
+                  fontWeight: 'bold',
+                  textDecoration: 'none',
+                  letterSpacing: '2px',
+                }}
+              >
+                ⛏ HOOD PASS v3 (MINT.CLUB)
               </a>
               <a
                 href={href}
