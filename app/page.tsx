@@ -15,7 +15,7 @@ export default function Home() {
       <SocialSidebar />
 
       {/* HERO SECTION */}
-      <section style={{ textAlign: 'center', padding: '80px 24px 48px', borderBottom: '1px solid #0f020' }}>
+      <section style={{ textAlign: 'center', padding: '80px 24px 48px', borderBottom: '1px solid #0f0' }}>
         <div style={{ marginBottom: '8px', fontFamily: 'VT323, monospace', fontSize: '14px', color: '#666', letterSpacing: '4px' }}>
           ▸ CLASSIFIED DATABASE · ACCESS GRANTED · BASE CHAIN ▸
         </div>

@@ -36,7 +36,9 @@ export async function fetchNFTsFromOpenSea(limit = 50, next?: string): Promise<{
         trait_type: t.trait_type,
         value: t.value,
       })) : [],
-      openseaUrl: `https://opensea.io/assets/base/${nft.contract}/${nft.identifier}`,
+      openseaUrl: nft.contract
+        ? `https://opensea.io/assets/base/${nft.contract}/${nft.identifier}`
+        : `https://opensea.io/collection/${COLLECTION_SLUG}`,
     })) || [];
 
     return { nfts, next: data.next };
