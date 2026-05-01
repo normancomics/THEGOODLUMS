@@ -28,3 +28,41 @@ join at your own risk.
 
 
 [![Tip in Crypto](https://tip.md/badge.svg)](https://tip.md/normancomics.eth)
+
+---
+
+## Farcaster Frame
+
+THE GOODLUMS dApp is integrated as a Farcaster Mini App Frame. Cast the link below to share an interactive GOODLUMS frame directly in Farcaster feeds:
+
+```
+https://normancomics.github.io/THEGOODLUMS/
+```
+
+### Frame Features
+
+When cast on Farcaster, the frame surfaces four interactive buttons:
+
+| Button | Action |
+|--------|--------|
+| **View Collection** | Opens the OpenSea collection |
+| **Hood Pass Info** | Navigates to the Hood Pass frame with v1–v4 status |
+| **Gallery** | Opens the NFT gallery frame with wanted-poster showcase |
+| **Soundtrack** | Opens the official GOODLUMS playlist on Suno |
+
+### Frame Navigation
+
+```
+Main Frame (index.html)
+  ├─→ Hood Pass Frame (hood-pass-frame.html)  — v1-v3 SOLD OUT · v4 ACTIVE · Sanko: VALID
+  ├─→ Gallery Frame (gallery-frame.html)       — 500 NFTs · 95 Traits · OpenSea links
+  ├─→ Soundtrack Frame (soundtrack-frame.html) — Listen on Suno
+  └─→ View Collection (opensea.io — external)
+```
+
+### Validate the Frame
+
+Use the Warpcast frame validator to test:  
+https://warpcast.com/~/developers/frames
+
+Paste `https://normancomics.github.io/THEGOODLUMS/` to preview the main frame.

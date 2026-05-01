@@ -1,0 +1,402 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>GOODLUMS HOOD PASS | Farcaster Frame</title>
+    <meta name="description" content="GOODLUMS Hood Pass — v1-v3 SOLD OUT. v4 ACTIVE: 60 LIMITED. Sanko Chain holders: VALID status.">
+
+    <!-- Open Graph -->
+    <meta property="og:title" content="GOODLUMS HOOD PASS" />
+    <meta property="og:description" content="v1-v3 SOLD OUT | v4 ACTIVE: 60 LIMITED | Sanko Chain: VALID" />
+    <meta property="og:image" content="https://normancomics.github.io/THEGOODLUMS/assets/frame-hood-pass.png" />
+    <meta property="og:url" content="https://normancomics.github.io/THEGOODLUMS/hood-pass-frame.html" />
+
+    <!-- Farcaster Frame Meta Tags -->
+    <meta property="fc:frame" content="vNext" />
+    <meta property="fc:frame:image" content="https://normancomics.github.io/THEGOODLUMS/assets/frame-hood-pass.png" />
+    <meta property="fc:frame:image:aspect_ratio" content="1.91:1" />
+    <meta property="fc:frame:button:1" content="Check Availability" />
+    <meta property="fc:frame:button:1:action" content="link" />
+    <meta property="fc:frame:button:1:target" content="https://mint.club/token/base/GOODLUMSV4" />
+    <meta property="fc:frame:button:2" content="Buy on OpenSea" />
+    <meta property="fc:frame:button:2:action" content="link" />
+    <meta property="fc:frame:button:2:target" content="https://opensea.io/collection/thegoodlums" />
+    <meta property="fc:frame:button:3" content="Back to Main" />
+    <meta property="fc:frame:button:3:action" content="link" />
+    <meta property="fc:frame:button:3:target" content="https://normancomics.github.io/THEGOODLUMS/" />
+
+    <link href="https://fonts.googleapis.com/css2?family=VT323&family=Courier+Prime:wght@400;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --green: #00ff41;
+            --red: #ff003c;
+            --yellow: #ffff00;
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; cursor: crosshair; }
+
+        @keyframes flicker { 0%,100%{opacity:1} 50%{opacity:.85} }
+        @keyframes blink { 0%,100%{opacity:1} 49%{opacity:1} 50%,99%{opacity:0} }
+        @keyframes glitch {
+            0%   { transform: translate(0); }
+            20%  { transform: translate(-3px, 2px); }
+            40%  { transform: translate(-3px, -2px); }
+            60%  { transform: translate(3px, 2px); }
+            80%  { transform: translate(3px, -2px); }
+            100% { transform: translate(0); }
+        }
+        @keyframes pulse-glow { 0%,100%{box-shadow:0 0 10px var(--green)} 50%{box-shadow:0 0 30px var(--green),0 0 60px var(--green)} }
+        @keyframes scan { 0%{top:-10%} 100%{top:110%} }
+
+        body {
+            background: #000;
+            color: var(--green);
+            font-family: 'VT323', monospace;
+            min-height: 100vh;
+            overflow-x: hidden;
+            position: relative;
+        }
+
+        body::before {
+            content: '';
+            position: fixed;
+            top: 0; left: 0;
+            width: 100%; height: 100%;
+            background: repeating-linear-gradient(
+                0deg,
+                transparent,
+                transparent 2px,
+                rgba(0,255,65,.03) 2px,
+                rgba(0,255,65,.03) 4px
+            );
+            pointer-events: none;
+            z-index: 10;
+        }
+
+        .scan-line {
+            position: fixed;
+            left: 0;
+            width: 100%;
+            height: 3px;
+            background: rgba(0,255,65,.15);
+            animation: scan 5s linear infinite;
+            pointer-events: none;
+            z-index: 11;
+        }
+
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        header {
+            text-align: center;
+            padding: 30px 0 20px;
+            border-bottom: 2px solid var(--yellow);
+        }
+
+        .back-link {
+            display: inline-block;
+            color: var(--green);
+            text-decoration: none;
+            font-size: 1.2em;
+            letter-spacing: 2px;
+            margin-bottom: 15px;
+            border: 1px solid var(--green);
+            padding: 5px 15px;
+            transition: all .2s;
+        }
+        .back-link:hover { background: var(--green); color: #000; }
+
+        h1 {
+            font-size: clamp(3em, 8vw, 6em);
+            color: var(--yellow);
+            letter-spacing: 4px;
+            text-shadow: 3px 3px 0 var(--red), -3px -3px 0 var(--green), 0 0 30px var(--yellow);
+            animation: glitch 4s infinite;
+        }
+
+        .subtitle {
+            font-size: 1.5em;
+            color: var(--green);
+            letter-spacing: 3px;
+            margin-top: 10px;
+            animation: flicker 3s infinite;
+        }
+
+        /* ─── VERSION GRID ────────────────────────── */
+        .versions-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 20px;
+            margin: 40px 0;
+        }
+
+        .version-card {
+            border: 2px solid;
+            padding: 20px;
+            text-align: center;
+            position: relative;
+            background: #050505;
+        }
+
+        .version-label {
+            font-size: 2em;
+            letter-spacing: 3px;
+            margin-bottom: 10px;
+        }
+
+        .version-status {
+            font-size: 2.5em;
+            font-weight: bold;
+            letter-spacing: 4px;
+        }
+
+        .version-detail {
+            font-size: 1.1em;
+            margin-top: 8px;
+            opacity: .8;
+        }
+
+        .card-sold {
+            border-color: var(--red);
+        }
+        .card-sold .version-label { color: var(--red); }
+        .card-sold .version-status {
+            color: var(--red);
+            text-shadow: 0 0 15px var(--red);
+            animation: flicker .8s infinite;
+        }
+
+        .card-active {
+            border-color: var(--green);
+            animation: pulse-glow 2s infinite;
+        }
+        .card-active .version-label { color: var(--green); }
+        .card-active .version-status {
+            color: var(--green);
+            text-shadow: 0 0 20px var(--green);
+        }
+
+        .card-sanko {
+            border-color: var(--yellow);
+        }
+        .card-sanko .version-label { color: var(--yellow); }
+        .card-sanko .version-status {
+            color: var(--yellow);
+            text-shadow: 0 0 15px var(--yellow);
+        }
+
+        /* ─── INFO BOX ────────────────────────────── */
+        .info-box {
+            border: 2px solid var(--green);
+            padding: 25px;
+            margin: 30px 0;
+            background: rgba(0,255,65,.03);
+        }
+
+        .info-box h2 {
+            font-size: 2em;
+            color: var(--yellow);
+            letter-spacing: 3px;
+            margin-bottom: 15px;
+            border-bottom: 1px dashed var(--yellow);
+            padding-bottom: 10px;
+        }
+
+        .info-row {
+            display: flex;
+            justify-content: space-between;
+            padding: 8px 0;
+            border-bottom: 1px dashed rgba(0,255,65,.2);
+            font-size: 1.2em;
+            color: #aaffaa;
+        }
+
+        .info-label { color: var(--green); letter-spacing: 2px; }
+        .info-value { color: var(--yellow); }
+
+        /* ─── CTA BUTTONS ─────────────────────────── */
+        .cta-section {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 15px;
+            justify-content: center;
+            margin: 40px 0;
+        }
+
+        .cta-btn {
+            display: inline-block;
+            padding: 15px 30px;
+            font-family: 'VT323', monospace;
+            font-size: 1.5em;
+            letter-spacing: 2px;
+            text-decoration: none;
+            border: 2px solid;
+            transition: all .2s;
+            cursor: crosshair;
+        }
+
+        .btn-primary {
+            color: #000;
+            background: var(--green);
+            border-color: var(--green);
+        }
+        .btn-primary:hover {
+            background: transparent;
+            color: var(--green);
+            box-shadow: 0 0 20px var(--green);
+        }
+
+        .btn-secondary {
+            color: var(--yellow);
+            background: transparent;
+            border-color: var(--yellow);
+        }
+        .btn-secondary:hover {
+            background: var(--yellow);
+            color: #000;
+            box-shadow: 0 0 20px var(--yellow);
+        }
+
+        .btn-back {
+            color: var(--green);
+            background: transparent;
+            border-color: var(--green);
+        }
+        .btn-back:hover {
+            background: var(--green);
+            color: #000;
+            box-shadow: 0 0 20px var(--green);
+        }
+
+        /* ─── WARNING BOX ─────────────────────────── */
+        .warning-box {
+            border: 3px solid var(--yellow);
+            padding: 20px;
+            margin: 30px 0;
+            background: rgba(255,255,0,.05);
+            text-align: center;
+        }
+
+        .warning-title {
+            font-size: 2em;
+            color: var(--yellow);
+            letter-spacing: 4px;
+            text-shadow: 0 0 15px var(--yellow);
+            animation: blink 1s infinite;
+        }
+
+        .warning-text {
+            font-size: 1.3em;
+            color: #ccffcc;
+            margin-top: 10px;
+            line-height: 1.6;
+        }
+
+        footer {
+            text-align: center;
+            padding: 30px 0;
+            border-top: 1px dashed rgba(0,255,65,.3);
+            color: rgba(0,255,65,.5);
+            font-size: 1.1em;
+            letter-spacing: 2px;
+        }
+
+        @media (max-width: 600px) {
+            .versions-grid { grid-template-columns: 1fr 1fr; }
+        }
+    </style>
+</head>
+<body>
+    <div class="scan-line"></div>
+    <div class="container">
+
+        <header>
+            <a href="index.html" class="back-link">← BACK TO MAIN</a>
+            <h1>🎟 HOOD PASS</h1>
+            <p class="subtitle">OFFICIAL GOODLUMS MEMBERSHIP STATUS</p>
+        </header>
+
+        <!-- Version Status Grid -->
+        <div class="versions-grid">
+            <div class="version-card card-sold">
+                <div class="version-label">V1</div>
+                <div class="version-status">SOLD OUT</div>
+                <div class="version-detail">CLOSED</div>
+            </div>
+            <div class="version-card card-sold">
+                <div class="version-label">V2</div>
+                <div class="version-status">SOLD OUT</div>
+                <div class="version-detail">CLOSED</div>
+            </div>
+            <div class="version-card card-sold">
+                <div class="version-label">V3</div>
+                <div class="version-status">SOLD OUT</div>
+                <div class="version-detail">CLOSED</div>
+            </div>
+            <div class="version-card card-active">
+                <div class="version-label">V4</div>
+                <div class="version-status">ACTIVE</div>
+                <div class="version-detail">60 LIMITED</div>
+            </div>
+            <div class="version-card card-sanko">
+                <div class="version-label">SANKO</div>
+                <div class="version-status">VALID</div>
+                <div class="version-detail">CHAIN HOLDERS</div>
+            </div>
+        </div>
+
+        <!-- Info Box -->
+        <div class="info-box">
+            <h2>HOOD PASS DETAILS</h2>
+            <div class="info-row">
+                <span class="info-label">COLLECTION</span>
+                <span class="info-value">THE GOODLUMS</span>
+            </div>
+            <div class="info-row">
+                <span class="info-label">CHAIN</span>
+                <span class="info-value">BASE</span>
+            </div>
+            <div class="info-row">
+                <span class="info-label">TOTAL NFTs</span>
+                <span class="info-value">500</span>
+            </div>
+            <div class="info-row">
+                <span class="info-label">V4 SUPPLY</span>
+                <span class="info-value">60 PASSES</span>
+            </div>
+            <div class="info-row">
+                <span class="info-label">V4 STATUS</span>
+                <span class="info-value" style="color:var(--green)">ACTIVE ✓</span>
+            </div>
+            <div class="info-row">
+                <span class="info-label">MEMBERSHIP</span>
+                <span class="info-value">BONUS YIELD + AIRDROPS</span>
+            </div>
+        </div>
+
+        <!-- Sanko Notice -->
+        <div class="warning-box">
+            <div class="warning-title">⚠ SANKO CHAIN NOTICE ⚠</div>
+            <div class="warning-text">
+                Sanko Chain Hood Pass holders: your pass remains <strong style="color:var(--green)">VALID</strong> for GOODLUMS gang membership.<br>
+                The Sanko deployment is deprecated but your status is recognized and honored.
+            </div>
+        </div>
+
+        <!-- CTA Section -->
+        <div class="cta-section">
+            <a href="https://mint.club/token/base/GOODLUMSV4" target="_blank" class="cta-btn btn-primary">CHECK AVAILABILITY</a>
+            <a href="https://opensea.io/collection/thegoodlums" target="_blank" class="cta-btn btn-secondary">BUY ON OPENSEA</a>
+            <a href="index.html" class="cta-btn btn-back">← BACK TO MAIN</a>
+        </div>
+
+        <footer>
+            THE GOODLUMS · CREATED 1999 · GANG FOUNDED 2019 · 500 NFTs · BASE CHAIN
+        </footer>
+    </div>
+</body>
+</html>
