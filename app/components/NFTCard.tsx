@@ -28,6 +28,8 @@ function TraitBadge({ trait }: { trait: NFTTrait }) {
 
 export function NFTCard({ nft, rank, total = 500 }: NFTCardProps) {
   const [isFlipped, setIsFlipped] = useState(false);
+  const [isBuying, setIsBuying] = useState(false);
+  const [buyStatus, setBuyStatus] = useState<string>('');
 
   const rarityTier = getRarityTier(rank, total);
   const wifiStrength = getWifiStrength(rank, total);
@@ -39,6 +41,84 @@ export function NFTCard({ nft, rank, total = 500 }: NFTCardProps) {
 
   // Determine ID display number
   const displayId = tokenId.padStart(3, '0');
+
+  // Contract details for Base chain
+  const CONTRACT_ADDRESS = '0x8Cd8155e1af6AD31dd9Eec2cEd37e04145aCFcb3';
+  const BASE_CHAIN_ID = 8453;
+
+  const handleBuyNow = async (e: React.MouseEvent) => {
+    e.stopPropagation();
+    
+    setIsBuying(true);
+    setBuyStatus('CONNECTING WALLET...');
+
+    try {
+      // Check if MetaMask/Web3 wallet is installed
+      if (typeof window.ethereum === 'undefined') {
+        setBuyStatus('NO WALLET DETECTED');
+        setTimeout(() => {
+          // Fallback to OpenSea
+          window.open(openseaUrl, '_blank');
+        }, 2000);
+        return;
+      }
+
+      // Request account access
+      const accounts = await window.ethereum.request({ 
+        method: 'eth_requestAccounts' 
+      });
+      
+      if (!accounts || accounts.length === 0) {
+        setBuyStatus('WALLET CONNECTION FAILED');
+        setIsBuying(false);
+        return;
+      }
+
+      setBuyStatus('CHECKING NETWORK...');
+
+      // Check if on Base chain
+      const chainId = await window.ethereum.request({ method: 'eth_chainId' });
+      if (parseInt(chainId, 16) !== BASE_CHAIN_ID) {
+        setBuyStatus('SWITCHING TO BASE CHAIN...');
+        
+        try {
+          await window.ethereum.request({
+            method: 'wallet_switchEthereumChain',
+            params: [{ chainId: `0x${BASE_CHAIN_ID.toString(16)}` }],
+          });
+        } catch (switchError: any) {
+          // Chain not added, add it
+          if (switchError.code === 4902) {
+            await window.ethereum.request({
+              method: 'wallet_addEthereumChain',
+              params: [{
+                chainId: `0x${BASE_CHAIN_ID.toString(16)}`,
+                chainName: 'Base',
+                nativeCurrency: { name: 'ETH', symbol: 'ETH', decimals: 18 },
+                rpcUrls: ['https://mainnet.base.org'],
+                blockExplorerUrls: ['https://basescan.org'],
+              }],
+            });
+          } else {
+            throw switchError;
+          }
+        }
+      }
+
+      setBuyStatus('OPENING OPENSEA CHECKOUT...');
+      
+      // Open OpenSea in an iframe or modal instead of new tab
+      // For now, we'll open it in the same window to keep music playing
+      window.location.href = openseaUrl;
+
+    } catch (error) {
+      console.error('Buy error:', error);
+      setBuyStatus('TRANSACTION FAILED');
+      setTimeout(() => setBuyStatus(''), 3000);
+    } finally {
+      setIsBuying(false);
+    }
+  };
 
   return (
     <div
@@ -150,20 +230,23 @@ export function NFTCard({ nft, rank, total = 500 }: NFTCardProps) {
 
           {/* Buy button */}
           <div className="p-3 border-t" style={{ borderColor: rarityColor }}>
-            <a
-              href={openseaUrl}
-              target="_blank"
-              rel="noopener noreferrer"
-              onClick={(e) => e.stopPropagation()}
-              className="block w-full text-center font-vt323 text-xl py-2 transition-all hover:scale-105"
+            <button
+              onClick={handleBuyNow}
+              disabled={isBuying}
+              className="block w-full text-center font-vt323 text-xl py-2 transition-all hover:scale-105 disabled:opacity-50 disabled:cursor-not-allowed"
               style={{
-                background: '#ff0000',
+                background: isBuying ? '#666' : '#ff0000',
                 color: '#fff',
-                boxShadow: '0 0 15px #ff000080',
+                boxShadow: isBuying ? 'none' : '0 0 15px #ff000080',
               }}
             >
-              BUY NOW -- OPENSEA
-            </a>
+              {isBuying ? buyStatus : 'BUY NOW'}
+            </button>
+            {buyStatus && !isBuying && (
+              <div className="mt-2 text-center font-vt323 text-warning-red text-xs animate-blink">
+                {buyStatus}
+              </div>
+            )}
           </div>
         </div>
       </motion.div>
