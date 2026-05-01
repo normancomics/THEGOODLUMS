@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>The GoodLums - Traits Explorer</title>
+    <title>The GoodLums - Buy & Explore NFTs</title>
     <style>
         * {
             margin: 0;
@@ -46,10 +46,43 @@
             margin-bottom: 20px;
         }
 
+        .header-actions {
+            display: flex;
+            gap: 15px;
+            justify-content: center;
+            flex-wrap: wrap;
+            margin-top: 20px;
+        }
+
+        .buy-button {
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            background: linear-gradient(135deg, #10b981, #059669);
+            padding: 15px 40px;
+            border-radius: 50px;
+            text-decoration: none;
+            color: white;
+            font-weight: bold;
+            font-size: 1.1em;
+            border: 2px solid rgba(255,255,255,0.3);
+            transition: all 0.3s ease;
+            box-shadow: 0 8px 25px rgba(16, 185, 129, 0.4);
+            animation: pulse 2s infinite;
+        }
+
+        .buy-button:hover {
+            background: linear-gradient(135deg, #059669, #047857);
+            transform: translateY(-3px) scale(1.05);
+            box-shadow: 0 15px 35px rgba(16, 185, 129, 0.5);
+        }
+
         .collection-link {
-            display: inline-block;
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
             background: rgba(255,255,255,0.2);
-            padding: 12px 30px;
+            padding: 15px 35px;
             border-radius: 50px;
             text-decoration: none;
             color: white;
@@ -57,13 +90,50 @@
             backdrop-filter: blur(10px);
             border: 2px solid rgba(255,255,255,0.3);
             transition: all 0.3s ease;
-            margin-top: 15px;
         }
 
         .collection-link:hover {
             background: rgba(255,255,255,0.3);
             transform: translateY(-2px);
             box-shadow: 0 10px 25px rgba(0,0,0,0.2);
+        }
+
+        .wallet-section {
+            background: rgba(255,255,255,0.15);
+            backdrop-filter: blur(10px);
+            padding: 25px;
+            border-radius: 20px;
+            border: 2px solid rgba(255,255,255,0.2);
+            margin-bottom: 40px;
+            text-align: center;
+            animation: fadeIn 1s ease;
+        }
+
+        .wallet-button {
+            background: linear-gradient(135deg, #f59e0b, #d97706);
+            color: white;
+            border: 2px solid rgba(255,255,255,0.3);
+            padding: 12px 30px;
+            border-radius: 50px;
+            font-size: 1em;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 5px 20px rgba(245, 158, 11, 0.4);
+        }
+
+        .wallet-button:hover {
+            background: linear-gradient(135deg, #d97706, #b45309);
+            transform: scale(1.05);
+        }
+
+        .wallet-address {
+            margin-top: 15px;
+            padding: 10px 20px;
+            background: rgba(0,0,0,0.3);
+            border-radius: 10px;
+            font-family: monospace;
+            font-size: 0.9em;
         }
 
         .stats {
@@ -82,6 +152,12 @@
             border-radius: 15px;
             border: 2px solid rgba(255,255,255,0.2);
             box-shadow: 0 8px 32px rgba(0,0,0,0.1);
+            transition: all 0.3s ease;
+        }
+
+        .stat-card:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 12px 40px rgba(0,0,0,0.2);
         }
 
         .stat-number {
@@ -185,30 +261,50 @@
             font-size: 1.1em;
         }
 
+        .trait-buttons {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+            margin-top: 15px;
+        }
+
         .trait-button {
-            width: 100%;
             padding: 12px;
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
             border: 2px solid rgba(255,255,255,0.5);
             color: white;
             border-radius: 10px;
-            font-size: 1em;
+            font-size: 0.95em;
             font-weight: bold;
             cursor: pointer;
             transition: all 0.3s ease;
             text-transform: uppercase;
             letter-spacing: 1px;
-            margin-top: 10px;
+            text-align: center;
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
         }
 
-        .trait-button:hover {
+        .trait-button.buy {
+            background: linear-gradient(135deg, #10b981, #059669);
+        }
+
+        .trait-button.buy:hover {
+            background: linear-gradient(135deg, #059669, #047857);
+            transform: scale(1.05);
+            box-shadow: 0 5px 20px rgba(16, 185, 129, 0.4);
+        }
+
+        .trait-button.view {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        }
+
+        .trait-button.view:hover {
             background: linear-gradient(135deg, #764ba2 0%, #667eea 100%);
             transform: scale(1.05);
-            box-shadow: 0 5px 20px rgba(0,0,0,0.3);
-        }
-
-        .trait-button:active {
-            transform: scale(0.98);
+            box-shadow: 0 5px 20px rgba(102, 126, 234, 0.4);
         }
 
         .rarity-indicator {
@@ -272,11 +368,43 @@
             }
         }
 
+        @keyframes pulse {
+            0%, 100% {
+                box-shadow: 0 8px 25px rgba(16, 185, 129, 0.4);
+            }
+            50% {
+                box-shadow: 0 8px 35px rgba(16, 185, 129, 0.6);
+            }
+        }
+
         .no-results {
             text-align: center;
             font-size: 1.5em;
             padding: 60px;
             opacity: 0.7;
+        }
+
+        .notification {
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            background: rgba(16, 185, 129, 0.95);
+            color: white;
+            padding: 15px 25px;
+            border-radius: 10px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+            display: none;
+            animation: slideIn 0.3s ease;
+            z-index: 1000;
+        }
+
+        @keyframes slideIn {
+            from {
+                transform: translateX(400px);
+            }
+            to {
+                transform: translateX(0);
+            }
         }
 
         @media (max-width: 768px) {
@@ -292,6 +420,10 @@
                 flex-direction: column;
                 gap: 15px;
             }
+
+            .header-actions {
+                flex-direction: column;
+            }
         }
     </style>
 </head>
@@ -299,11 +431,23 @@
     <div class="container">
         <header>
             <h1>🌟 THE GOODLUMS 🌟</h1>
-            <p class="subtitle">Explore Traits & Discover Your NFTs</p>
-            <a href="https://opensea.io/collection/thegoodlums" target="_blank" class="collection-link">
-                View Collection on OpenSea →
-            </a>
+            <p class="subtitle">Explore Traits & Buy NFTs Directly</p>
+            <div class="header-actions">
+                <a href="https://opensea.io/collection/thegoodlums" target="_blank" class="buy-button">
+                    💰 Buy GoodLums Now
+                </a>
+                <a href="https://opensea.io/collection/thegoodlums" target="_blank" class="collection-link">
+                    📊 View Full Collection
+                </a>
+            </div>
         </header>
+
+        <div class="wallet-section" id="walletSection">
+            <h3 style="margin-bottom: 15px;">🔐 Connect Wallet to Buy</h3>
+            <p style="opacity: 0.9; margin-bottom: 15px;">Connect your Web3 wallet for quick purchases</p>
+            <button class="wallet-button" id="connectWallet">Connect Wallet</button>
+            <div class="wallet-address" id="walletAddress" style="display: none;"></div>
+        </div>
 
         <div class="stats">
             <div class="stat-card">
@@ -322,6 +466,8 @@
 
         <div class="traits-grid" id="traitsGrid"></div>
     </div>
+
+    <div class="notification" id="notification"></div>
 
     <script>
         // Organized trait data from the original file
@@ -446,6 +592,46 @@
         document.getElementById('totalCategories').textContent = totalCategories;
         document.getElementById('totalTraits').textContent = totalTraits;
 
+        // Wallet connection
+        let walletConnected = false;
+        let userAddress = '';
+
+        document.getElementById('connectWallet').addEventListener('click', async () => {
+            if (typeof window.ethereum !== 'undefined') {
+                try {
+                    const accounts = await window.ethereum.request({ method: 'eth_requestAccounts' });
+                    userAddress = accounts[0];
+                    walletConnected = true;
+                    
+                    document.getElementById('walletAddress').textContent = `Connected: ${userAddress.slice(0, 6)}...${userAddress.slice(-4)}`;
+                    document.getElementById('walletAddress').style.display = 'block';
+                    document.getElementById('connectWallet').textContent = 'Wallet Connected ✓';
+                    document.getElementById('connectWallet').disabled = true;
+                    
+                    showNotification('Wallet connected successfully! 🎉');
+                } catch (error) {
+                    showNotification('Failed to connect wallet. Please try again.', 'error');
+                }
+            } else {
+                showNotification('Please install MetaMask or another Web3 wallet!', 'error');
+                setTimeout(() => {
+                    window.open('https://metamask.io/download/', '_blank');
+                }, 2000);
+            }
+        });
+
+        // Show notification
+        function showNotification(message, type = 'success') {
+            const notification = document.getElementById('notification');
+            notification.textContent = message;
+            notification.style.display = 'block';
+            notification.style.background = type === 'success' ? 'rgba(16, 185, 129, 0.95)' : 'rgba(239, 68, 68, 0.95)';
+            
+            setTimeout(() => {
+                notification.style.display = 'none';
+            }, 3000);
+        }
+
         // Get rarity class based on count
         function getRarityClass(count) {
             if (count >= 30) return 'legendary';
@@ -478,6 +664,7 @@
                 const rarity = getRarityClass(count);
                 const rarityLabel = getRarityLabel(count);
                 const searchUrl = `https://opensea.io/collection/thegoodlums?search[stringTraits][0][name]=${encodeURIComponent(name)}`;
+                const buyUrl = `https://opensea.io/collection/thegoodlums?search[stringTraits][0][name]=${encodeURIComponent(name)}&search[sortBy]=PRICE&search[sortAscending]=true`;
 
                 return `
                     <div class="trait-category">
@@ -486,9 +673,14 @@
                             <div class="trait-count">${count}</div>
                         </div>
                         <div class="rarity-indicator rarity-${rarity}">${rarityLabel}</div>
-                        <button class="trait-button" onclick="window.open('${searchUrl}', '_blank')">
-                            View on OpenSea
-                        </button>
+                        <div class="trait-buttons">
+                            <a href="${buyUrl}" target="_blank" class="trait-button buy">
+                                💰 Buy Now
+                            </a>
+                            <a href="${searchUrl}" target="_blank" class="trait-button view">
+                                👁️ View Listings
+                            </a>
+                        </div>
                     </div>
                 `;
             }).join('');
@@ -501,6 +693,22 @@
 
         // Initial render
         renderTraits();
+
+        // Check for Web3 wallet on load
+        window.addEventListener('load', () => {
+            if (typeof window.ethereum !== 'undefined') {
+                window.ethereum.request({ method: 'eth_accounts' }).then(accounts => {
+                    if (accounts.length > 0) {
+                        userAddress = accounts[0];
+                        walletConnected = true;
+                        document.getElementById('walletAddress').textContent = `Connected: ${userAddress.slice(0, 6)}...${userAddress.slice(-4)}`;
+                        document.getElementById('walletAddress').style.display = 'block';
+                        document.getElementById('connectWallet').textContent = 'Wallet Connected ✓';
+                        document.getElementById('connectWallet').disabled = true;
+                    }
+                });
+            }
+        });
     </script>
 </body>
 </html>
