@@ -957,9 +957,12 @@
         <!-- GOODLUMS Logo (from IPFS/Filebase) - blinking -->
         <img
             src="https://liable-brown-mite.myfilebase.com/ipfs/QmQVkYNWCQrV5FzciYZwtW8bUST7bFRFQgfnbNpP1aCbch"
-            alt="GOODLUMS OFFICIAL COLLECTION"
+            alt="GOODLUMS OFFICIAL COLLECTION — click to connect wallet"
             class="goodlums-logo"
+            tabindex="0"
+            role="button"
             onclick="openWalletModal()"
+            onkeypress="if(event.key==='Enter'||event.key===' ')openWalletModal()"
             onerror="this.style.display='none'; document.getElementById('logoFallback').style.display='block';"
         >
         <div id="logoFallback" style="display:none; font-size:3em; color:#0f0; text-shadow:0 0 20px #0f0; animation:blink-logo 1.5s infinite; margin:10px 0;">⚠️ GOODLUMS ⚠️</div>
@@ -993,8 +996,9 @@
             <button class="wallet-option-btn" onclick="connectFarcaster()">
                 <span class="wallet-icon">🟣</span> Farcaster (Warpcast)
             </button>
-            <button class="wallet-option-btn" onclick="connectWalletConnect()">
+            <button class="wallet-option-btn" onclick="connectWalletConnect()" style="opacity:0.7;">
                 <span class="wallet-icon">🔗</span> WalletConnect v2
+                <span style="font-size:0.55em; background:#f00; color:#fff; padding:2px 6px; margin-left:auto; vertical-align:middle;">NEEDS PROJECT ID</span>
             </button>
 
             <p class="wallet-modal-note">Connecting loads Base Chain (8453) automatically</p>
@@ -1129,15 +1133,19 @@
     // ============================================================
     //  CONFIGURATION
     // ============================================================
-    const NFT_CONTRACT     = '0xac173184c86360193f42e7bae582777fa5107474';
-    const HOOD_PASS_V1_CA  = '0xf291501f7a8a92c130ce883b5865f0d40786a81f';
-    const BASE_CHAIN_ID    = 8453;
-    const BASE_CHAIN_HEX   = '0x2105';
-    const BASE_RPC         = 'https://mainnet.base.org';
-    const IPFS_GATEWAY     = 'https://ipfs.io/ipfs/';
-    const FILEBASE_GATEWAY = 'https://liable-brown-mite.myfilebase.com/ipfs/';
-    const COLLECTION_LOGO  = 'https://liable-brown-mite.myfilebase.com/ipfs/QmZ6kMj5C2igALcCzqjuE5ZP3ZRZwCCqMA82Xc4PSvnqe7';
-    const MAIN_LOGO_IPFS   = 'https://liable-brown-mite.myfilebase.com/ipfs/QmQVkYNWCQrV5FzciYZwtW8bUST7bFRFQgfnbNpP1aCbch';
+    const NFT_CONTRACT       = '0xac173184c86360193f42e7bae582777fa5107474';
+    const HOOD_PASS_V1_CA    = '0xf291501f7a8a92c130ce883b5865f0d40786a81f';
+    const BASE_CHAIN_ID      = 8453;
+    const BASE_CHAIN_HEX     = '0x2105';
+    const BASE_RPC           = 'https://mainnet.base.org';
+    const IPFS_GATEWAY       = 'https://ipfs.io/ipfs/';
+    const FILEBASE_GATEWAY   = 'https://liable-brown-mite.myfilebase.com/ipfs/';
+    const COLLECTION_LOGO    = 'https://liable-brown-mite.myfilebase.com/ipfs/QmZ6kMj5C2igALcCzqjuE5ZP3ZRZwCCqMA82Xc4PSvnqe7';
+    const MAIN_LOGO_IPFS     = 'https://liable-brown-mite.myfilebase.com/ipfs/QmQVkYNWCQrV5FzciYZwtW8bUST7bFRFQgfnbNpP1aCbch';
+    // GOODLUMS total supply — cap enumeration to avoid runaway loops
+    const MAX_COLLECTION_SIZE = 500;
+    // Hood Pass fetch cap — performance safeguard for wallets with many tokens
+    const MAX_HOOD_PASS_FETCH = 100;
 
     // Minimal ERC-721 ABI
     const ERC721_ABI = [
@@ -1218,9 +1226,10 @@
 
             const shortAddr = connectedAddress.slice(0, 6) + '...' + connectedAddress.slice(-4);
             const btn = document.getElementById('connectWalletBtn');
-            btn.textContent = '✅ ' + walletLabel.toUpperCase() + ': ' + shortAddr;
+            btn.textContent = '✅ ' + walletLabel.toUpperCase() + ': ' + shortAddr + ' [SWITCH]';
             btn.classList.add('connected');
-            btn.onclick = null; // prevent re-opening modal while connected
+            // Allow re-opening modal to switch wallets
+            btn.onclick = openWalletModal;
 
             document.getElementById('walletStatusDisplay').textContent =
                 'CONNECTED ON BASE CHAIN | ' + connectedAddress;
@@ -1272,7 +1281,13 @@
             ? window.farcaster.ethereum
             : window.ethereum;
         if (!provider) {
-            alert('Farcaster wallet not found. Open this page inside Warpcast, or use another wallet.');
+            alert(
+                'Farcaster wallet not detected.\n\n' +
+                'To use Farcaster wallet:\n' +
+                '1. Open the Warpcast app (warpcast.com)\n' +
+                '2. Navigate to this page inside Warpcast\n\n' +
+                'Alternatively, use MetaMask, Coinbase, Rabby, or Zerion.'
+            );
             return;
         }
         await connectProvider(provider, 'Farcaster');
@@ -1333,7 +1348,9 @@
 
             // Check GOODLUMS NFT balance
             const balance    = await nftContract.balanceOf(address);
-            const balanceNum = balance.toNumber();
+            // Use parseInt on string representation to safely handle large values;
+            // cap at MAX_COLLECTION_SIZE (total supply) to prevent runaway loops
+            const balanceNum = Math.min(parseInt(balance.toString(), 10), MAX_COLLECTION_SIZE);
 
             if (balanceNum === 0) {
                 verifyMsg.innerHTML =
@@ -1351,11 +1368,11 @@
             let hoodPassTokenIds = [];
             try {
                 const hpBalance = await hpContract.balanceOf(address);
-                const hpNum     = hpBalance.toNumber();
+                const hpNum     = Math.min(parseInt(hpBalance.toString(), 10), MAX_HOOD_PASS_FETCH);
                 for (let i = 0; i < hpNum; i++) {
                     try {
                         const tId = await hpContract.tokenOfOwnerByIndex(address, i);
-                        hoodPassTokenIds.push(tId.toNumber());
+                        hoodPassTokenIds.push(parseInt(tId.toString(), 10));
                     } catch (_) {}
                 }
             } catch (_) {}
@@ -1364,20 +1381,23 @@
 
             // Fetch all GOODLUMS token IDs for this wallet
             const tokenIds = [];
+            let enumFailed = false;
             for (let i = 0; i < balanceNum; i++) {
                 try {
                     const tId = await nftContract.tokenOfOwnerByIndex(address, i);
-                    tokenIds.push(tId.toNumber());
+                    tokenIds.push(parseInt(tId.toString(), 10));
                 } catch (e) {
                     console.warn('[GOODLUMS] tokenOfOwnerByIndex failed for index', i, e.message);
-                    break;
+                    // If the first call fails the contract doesn't support enumeration; stop.
+                    // If a later call fails, it may be transient — skip this index and continue.
+                    if (i === 0) { enumFailed = true; break; }
                 }
             }
 
             if (tokenIds.length === 0) {
-                verifyMsg.textContent =
-                    '⚠️ COULD NOT ENUMERATE TOKENS (CONTRACT MAY NOT SUPPORT ERC721Enumerable). ' +
-                    'CHECK OPENSEA FOR YOUR TOKENS.';
+                verifyMsg.textContent = enumFailed
+                    ? '⚠️ COULD NOT ENUMERATE TOKENS (CONTRACT MAY NOT SUPPORT ERC721Enumerable). CHECK OPENSEA FOR YOUR TOKENS.'
+                    : '⚠️ COULD NOT LOAD TOKEN IDS. PLEASE REFRESH AND TRY AGAIN.';
                 return;
             }
 
@@ -1438,7 +1458,7 @@
                 const qty     = data.asset_events[0].payment?.quantity || '0';
                 const decimals= data.asset_events[0].payment?.decimals || 18;
                 const priceEth= parseFloat(qty) / Math.pow(10, decimals);
-                return 'Ξ' + priceEth.toFixed(3) + 'eth';
+                return 'Ξ' + priceEth.toFixed(3);
             }
         } catch (_) {}
         return 'N/A';
@@ -1484,19 +1504,22 @@
                 '</tr>';
         }).join('');
 
+        // Validate tokenId is a safe non-negative integer within collection bounds before injecting into HTML
+        const safeTokenId = Math.max(0, Math.min(Math.floor(Number(tokenId)), MAX_COLLECTION_SIZE)) || 0;
+
         // Build hood pass info button (always shown)
         const hpInfoBtn =
             '<button class="hood-pass-info-btn" ' +
-            'onclick="event.stopPropagation(); showHoodPassInfo(' + tokenId + ', \'' + escapeHtml(hoodPassStatus) + '\')">' +
+            'onclick="event.stopPropagation(); showHoodPassInfo(' + safeTokenId + ', \'' + escapeHtml(hoodPassStatus) + '\')">' +
             'ⓘ</button>';
 
         const wrapper   = document.createElement('div');
         wrapper.className = 'flip-card-wrapper';
 
         wrapper.innerHTML =
-            '<div class="flip-card" id="card_' + tokenId + '" onclick="this.classList.toggle(\'flipped\')">' +
+            '<div class="flip-card" id="card_' + safeTokenId + '" onclick="this.classList.toggle(\'flipped\')">' +
                 '<div class="flip-card-front">' +
-                    '<div class="card-header-bar">GOODLUMS official collection card: Nº' + tokenId + '</div>' +
+                    '<div class="card-header-bar">GOODLUMS official collection card: Nº' + safeTokenId + '</div>' +
                     '<img src="' + escapeHtml(image) + '" alt="' + escapeHtml(name) + '" class="card-nft-image" ' +
                         'onerror="this.src=\'' + MAIN_LOGO_IPFS + '\'">' +
                     '<div class="card-info">' +
@@ -1507,7 +1530,7 @@
                         '</div>' +
                         '<div class="card-detail-row">' +
                             '<span class="card-detail-label">LAST SALE:</span>' +
-                            '<span class="card-detail-value" id="lastSale_' + tokenId + '">LOADING...</span>' +
+                            '<span class="card-detail-value" id="lastSale_' + safeTokenId + '">LOADING...</span>' +
                         '</div>' +
                         '<div class="card-detail-row">' +
                             '<span class="card-detail-label">HOOD-PASS:</span>' +
@@ -1620,14 +1643,16 @@
                     ethersProvider   = new ethers.providers.Web3Provider(window.ethereum, 'any');
                     const shortAddr  = connectedAddress.slice(0, 6) + '...' + connectedAddress.slice(-4);
                     const btn        = document.getElementById('connectWalletBtn');
-                    btn.textContent  = '✅ CONNECTED: ' + shortAddr;
+                    btn.textContent  = '✅ CONNECTED: ' + shortAddr + ' [SWITCH]';
                     btn.classList.add('connected');
-                    btn.onclick      = null;
+                    btn.onclick      = openWalletModal;
                     document.getElementById('walletStatusDisplay').textContent =
                         'CONNECTED | ' + connectedAddress;
                     await verifyNFTs(connectedAddress);
                 }
-            } catch (_) {}
+            } catch (err) {
+                console.warn('[GOODLUMS] Auto-reconnect failed:', err.message || err);
+            }
         }
     });
     </script>
