@@ -1,0 +1,380 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>GOODLUMS SOUNDTRACK | Farcaster Frame</title>
+    <meta name="description" content="THE GOODLUMS Official Soundtrack — Post-Apocalyptic Internet Gang Music. Listen on Suno.">
+
+    <!-- Open Graph -->
+    <meta property="og:title" content="THE GOODLUMS SOUNDTRACK" />
+    <meta property="og:description" content="Official Post-Apocalyptic Internet Gang Soundtrack. Stream now on Suno." />
+    <meta property="og:image" content="https://normancomics.github.io/THEGOODLUMS/assets/frame-soundtrack.png" />
+    <meta property="og:url" content="https://normancomics.github.io/THEGOODLUMS/soundtrack-frame.html" />
+
+    <!-- Farcaster Frame Meta Tags -->
+    <meta property="fc:frame" content="vNext" />
+    <meta property="fc:frame:image" content="https://normancomics.github.io/THEGOODLUMS/assets/frame-soundtrack.png" />
+    <meta property="fc:frame:image:aspect_ratio" content="1.91:1" />
+    <meta property="fc:frame:button:1" content="Listen on Suno" />
+    <meta property="fc:frame:button:1:action" content="link" />
+    <meta property="fc:frame:button:1:target" content="https://suno.com/playlist/9cd81cff-725c-4f07-97ca-d8fd86c72810" />
+    <meta property="fc:frame:button:2" content="View Collection" />
+    <meta property="fc:frame:button:2:action" content="link" />
+    <meta property="fc:frame:button:2:target" content="https://opensea.io/collection/thegoodlums" />
+    <meta property="fc:frame:button:3" content="Back" />
+    <meta property="fc:frame:button:3:action" content="link" />
+    <meta property="fc:frame:button:3:target" content="https://normancomics.github.io/THEGOODLUMS/" />
+
+    <link href="https://fonts.googleapis.com/css2?family=VT323&family=Courier+Prime:wght@400;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --green: #00ff41;
+            --red: #ff003c;
+            --yellow: #ffff00;
+            --purple: #cc00ff;
+            --cyan: #00ffff;
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; cursor: crosshair; }
+
+        @keyframes flicker { 0%,100%{opacity:1} 50%{opacity:.85} }
+        @keyframes glitch {
+            0%   { transform: translate(0); }
+            20%  { transform: translate(-3px, 2px); }
+            40%  { transform: translate(-3px, -2px); }
+            60%  { transform: translate(3px, 2px); }
+            80%  { transform: translate(3px, -2px); }
+            100% { transform: translate(0); }
+        }
+        @keyframes scan { 0%{top:-10%} 100%{top:110%} }
+        @keyframes pulse-purple { 0%,100%{box-shadow:0 0 10px var(--purple)} 50%{box-shadow:0 0 40px var(--purple),0 0 80px var(--purple)} }
+        @keyframes equalizer {
+            0%   { height: 10px; }
+            25%  { height: 40px; }
+            50%  { height: 20px; }
+            75%  { height: 50px; }
+            100% { height: 10px; }
+        }
+        @keyframes spin-slow { 0%{transform:rotate(0deg)} 100%{transform:rotate(360deg)} }
+
+        body {
+            background: #000;
+            color: var(--green);
+            font-family: 'VT323', monospace;
+            min-height: 100vh;
+            overflow-x: hidden;
+            position: relative;
+        }
+
+        body::before {
+            content: '';
+            position: fixed;
+            top: 0; left: 0;
+            width: 100%; height: 100%;
+            background: repeating-linear-gradient(
+                0deg,
+                transparent,
+                transparent 2px,
+                rgba(0,255,65,.03) 2px,
+                rgba(0,255,65,.03) 4px
+            );
+            pointer-events: none;
+            z-index: 10;
+        }
+
+        .scan-line {
+            position: fixed;
+            left: 0;
+            width: 100%;
+            height: 3px;
+            background: rgba(0,255,65,.15);
+            animation: scan 5s linear infinite;
+            pointer-events: none;
+            z-index: 11;
+        }
+
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        header {
+            text-align: center;
+            padding: 30px 0 20px;
+            border-bottom: 2px solid var(--purple);
+        }
+
+        .back-link {
+            display: inline-block;
+            color: var(--green);
+            text-decoration: none;
+            font-size: 1.2em;
+            letter-spacing: 2px;
+            margin-bottom: 15px;
+            border: 1px solid var(--green);
+            padding: 5px 15px;
+            transition: all .2s;
+        }
+        .back-link:hover { background: var(--green); color: #000; }
+
+        h1 {
+            font-size: clamp(3em, 8vw, 6em);
+            color: var(--purple);
+            letter-spacing: 4px;
+            text-shadow: 3px 3px 0 var(--red), -3px -3px 0 var(--cyan), 0 0 30px var(--purple);
+            animation: glitch 4s infinite;
+        }
+
+        .subtitle {
+            font-size: 1.5em;
+            color: var(--green);
+            letter-spacing: 3px;
+            margin-top: 10px;
+            animation: flicker 3s infinite;
+        }
+
+        /* ─── ALBUM ART ───────────────────────────── */
+        .album-art {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 40px auto;
+            width: 200px;
+            height: 200px;
+            border: 4px solid var(--purple);
+            border-radius: 50%;
+            background: radial-gradient(circle, #1a001a, #000);
+            box-shadow: 0 0 40px var(--purple), inset 0 0 30px rgba(204,0,255,.2);
+            animation: pulse-purple 2s infinite, spin-slow 20s linear infinite;
+            font-size: 6em;
+            position: relative;
+        }
+
+        .album-art::before {
+            content: '';
+            position: absolute;
+            width: 30px;
+            height: 30px;
+            background: #000;
+            border: 3px solid var(--purple);
+            border-radius: 50%;
+        }
+
+        /* ─── EQUALIZER ───────────────────────────── */
+        .equalizer {
+            display: flex;
+            align-items: flex-end;
+            justify-content: center;
+            gap: 5px;
+            height: 60px;
+            margin: 20px 0;
+        }
+
+        .eq-bar {
+            width: 12px;
+            background: var(--purple);
+            box-shadow: 0 0 8px var(--purple);
+            animation: equalizer ease-in-out infinite;
+        }
+
+        .eq-bar:nth-child(1) { animation-duration: 0.5s; animation-delay: 0s; }
+        .eq-bar:nth-child(2) { animation-duration: 0.7s; animation-delay: 0.1s; background: var(--cyan); box-shadow: 0 0 8px var(--cyan); }
+        .eq-bar:nth-child(3) { animation-duration: 0.4s; animation-delay: 0.2s; }
+        .eq-bar:nth-child(4) { animation-duration: 0.6s; animation-delay: 0.05s; background: var(--green); box-shadow: 0 0 8px var(--green); }
+        .eq-bar:nth-child(5) { animation-duration: 0.8s; animation-delay: 0.15s; }
+        .eq-bar:nth-child(6) { animation-duration: 0.45s; animation-delay: 0.25s; background: var(--yellow); box-shadow: 0 0 8px var(--yellow); }
+        .eq-bar:nth-child(7) { animation-duration: 0.65s; animation-delay: 0.1s; }
+        .eq-bar:nth-child(8) { animation-duration: 0.55s; animation-delay: 0.3s; background: var(--cyan); box-shadow: 0 0 8px var(--cyan); }
+
+        /* ─── TRACKLIST ───────────────────────────── */
+        .tracklist {
+            border: 2px solid var(--purple);
+            background: rgba(204,0,255,.03);
+            margin: 30px 0;
+        }
+
+        .tracklist-header {
+            background: var(--purple);
+            color: #000;
+            padding: 10px 20px;
+            font-size: 1.5em;
+            letter-spacing: 3px;
+        }
+
+        .track-item {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            padding: 12px 20px;
+            border-bottom: 1px dashed rgba(204,0,255,.3);
+            font-size: 1.2em;
+            color: #ddaaff;
+            transition: background .2s;
+        }
+
+        .track-item:hover { background: rgba(204,0,255,.08); }
+        .track-item:last-child { border-bottom: none; }
+
+        .track-num {
+            color: var(--purple);
+            min-width: 35px;
+            font-size: 1.1em;
+        }
+
+        .track-name {
+            flex: 1;
+            letter-spacing: 1px;
+        }
+
+        .track-vibe {
+            font-size: 0.9em;
+            color: rgba(204,0,255,.6);
+            letter-spacing: 2px;
+        }
+
+        .track-play {
+            color: var(--purple);
+            font-size: 1.3em;
+        }
+
+        /* ─── CTA BUTTONS ─────────────────────────── */
+        .cta-section {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 15px;
+            justify-content: center;
+            margin: 40px 0;
+        }
+
+        .cta-btn {
+            display: inline-block;
+            padding: 15px 30px;
+            font-family: 'VT323', monospace;
+            font-size: 1.5em;
+            letter-spacing: 2px;
+            text-decoration: none;
+            border: 2px solid;
+            transition: all .2s;
+            cursor: crosshair;
+        }
+
+        .btn-purple {
+            color: #000;
+            background: var(--purple);
+            border-color: var(--purple);
+        }
+        .btn-purple:hover { background: transparent; color: var(--purple); box-shadow: 0 0 20px var(--purple); }
+
+        .btn-secondary {
+            color: var(--purple);
+            background: transparent;
+            border-color: var(--purple);
+        }
+        .btn-secondary:hover { background: var(--purple); color: #000; box-shadow: 0 0 20px var(--purple); }
+
+        .btn-back {
+            color: var(--green);
+            background: transparent;
+            border-color: var(--green);
+        }
+        .btn-back:hover { background: var(--green); color: #000; box-shadow: 0 0 20px var(--green); }
+
+        footer {
+            text-align: center;
+            padding: 30px 0;
+            border-top: 1px dashed rgba(0,255,65,.3);
+            color: rgba(0,255,65,.5);
+            font-size: 1.1em;
+            letter-spacing: 2px;
+        }
+    </style>
+</head>
+<body>
+    <div class="scan-line"></div>
+    <div class="container">
+
+        <header>
+            <a href="index.html" class="back-link">← BACK TO MAIN</a>
+            <h1>🎵 SOUNDTRACK</h1>
+            <p class="subtitle">OFFICIAL GOODLUMS PLAYLIST</p>
+        </header>
+
+        <!-- Album Art -->
+        <div style="text-align:center">
+            <div class="album-art">🎵</div>
+        </div>
+
+        <!-- Equalizer Animation -->
+        <div class="equalizer">
+            <div class="eq-bar"></div>
+            <div class="eq-bar"></div>
+            <div class="eq-bar"></div>
+            <div class="eq-bar"></div>
+            <div class="eq-bar"></div>
+            <div class="eq-bar"></div>
+            <div class="eq-bar"></div>
+            <div class="eq-bar"></div>
+        </div>
+
+        <!-- Tracklist -->
+        <div class="tracklist">
+            <div class="tracklist-header">▶ NOW PLAYING — GOODLUMS PLAYLIST</div>
+            <div class="track-item">
+                <span class="track-num">01</span>
+                <span class="track-name">POST APOCALYPTIC ANTHEM</span>
+                <span class="track-vibe">HARD</span>
+                <span class="track-play">▶</span>
+            </div>
+            <div class="track-item">
+                <span class="track-num">02</span>
+                <span class="track-name">NO NEW MEMBERS</span>
+                <span class="track-vibe">GANG</span>
+                <span class="track-play">▶</span>
+            </div>
+            <div class="track-item">
+                <span class="track-num">03</span>
+                <span class="track-name">BASE CHAIN BLUES</span>
+                <span class="track-vibe">VIBES</span>
+                <span class="track-play">▶</span>
+            </div>
+            <div class="track-item">
+                <span class="track-num">04</span>
+                <span class="track-name">HOOD PASS VALID</span>
+                <span class="track-vibe">FLEX</span>
+                <span class="track-play">▶</span>
+            </div>
+            <div class="track-item">
+                <span class="track-num">05</span>
+                <span class="track-name">FRAMEMOGGIN' & LOOKSMAXXIN'</span>
+                <span class="track-vibe">HEAT</span>
+                <span class="track-play">▶</span>
+            </div>
+            <div class="track-item">
+                <span class="track-num">06</span>
+                <span class="track-name">INTERNET GANG 1999</span>
+                <span class="track-vibe">CLASSIC</span>
+                <span class="track-play">▶</span>
+            </div>
+            <div class="track-item">
+                <span class="track-num">+MORE</span>
+                <span class="track-name">FULL PLAYLIST ON SUNO</span>
+                <span class="track-vibe">STREAM</span>
+                <span class="track-play">→</span>
+            </div>
+        </div>
+
+        <!-- CTA Section -->
+        <div class="cta-section">
+            <a href="https://suno.com/playlist/9cd81cff-725c-4f07-97ca-d8fd86c72810" target="_blank" class="cta-btn btn-purple">LISTEN ON SUNO</a>
+            <a href="https://opensea.io/collection/thegoodlums" target="_blank" class="cta-btn btn-secondary">VIEW COLLECTION</a>
+            <a href="index.html" class="cta-btn btn-back">← BACK</a>
+        </div>
+
+        <footer>
+            THE GOODLUMS · OFFICIAL SOUNDTRACK · POST-APOCALYPTIC INTERNET GANG
+        </footer>
+    </div>
+</body>
+</html>
