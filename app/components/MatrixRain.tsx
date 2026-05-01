@@ -2,6 +2,8 @@
 
 import { useEffect, useRef } from 'react';
 
+const MATRIX_CHARS = 'GOODLUMS0123456789@#$%^&*()GLD⚠️';
+
 export default function MatrixRain() {
   const canvasRef = useRef<HTMLCanvasElement>(null);
 
@@ -19,7 +21,6 @@ export default function MatrixRain() {
     resize();
     window.addEventListener('resize', resize);
 
-    const chars = 'GOODLUMS0123456789@#$%^&*()GLD';
     const fontSize = 14;
     let columns = Math.floor(canvas.width / fontSize);
     const drops: number[] = Array(columns).fill(1);
@@ -35,7 +36,7 @@ export default function MatrixRain() {
       while (drops.length < columns) drops.push(1);
 
       for (let i = 0; i < drops.length; i++) {
-        const char = chars[Math.floor(Math.random() * chars.length)];
+        const char = MATRIX_CHARS[Math.floor(Math.random() * MATRIX_CHARS.length)];
         ctx.fillText(char, i * fontSize, drops[i] * fontSize);
 
         if (drops[i] * fontSize > canvas.height && Math.random() > 0.975) {
