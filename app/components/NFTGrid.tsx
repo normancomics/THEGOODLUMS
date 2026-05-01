@@ -1,13 +1,11 @@
 'use client';
 
-import { useState, useEffect, useCallback } from 'react';
+import { useState, useEffect, useCallback, useRef } from 'react';
 import { NFTCard } from './NFTCard';
 import { fetchNFTsPage } from '@/lib/opensea';
 import type { OpenSeaNFT, RarityTier } from '@/lib/types';
 
 type FilterType = 'all' | RarityTier;
-
-const RARITY_PERCENTILES: Record<string, RarityTier> = {};
 
 function getRarityForRank(rank: number, total: number): RarityTier {
   const pct = rank / total;
@@ -28,31 +26,31 @@ export function NFTGrid() {
   const [filter, setFilter] = useState<FilterType>('all');
   const [sortBy, setSortBy] = useState<'rank' | 'id'>('rank');
   const [searchTerm, setSearchTerm] = useState('');
+  const cursorRef = useRef<string | undefined>(undefined);
 
-  const loadNFTs = useCallback(async (reset = false) => {
+  const fetchPage = useCallback(async (reset: boolean) => {
+    const currentCursor = reset ? undefined : cursorRef.current;
     try {
       if (reset) {
         setLoading(true);
         setNfts([]);
-        setCursor(undefined);
+        cursorRef.current = undefined;
       } else {
         setLoadingMore(true);
       }
       setError(null);
 
-      const currentCursor = reset ? undefined : cursor;
       const data = await fetchNFTsPage(currentCursor);
 
-      setNfts((prev) => {
-        const newList = reset ? data.nfts : [...prev, ...data.nfts];
-        return newList;
-      });
+      setNfts((prev) => (reset ? data.nfts : [...prev, ...data.nfts]));
 
       if (data.next) {
+        cursorRef.current = data.next;
         setCursor(data.next);
       } else {
-        setHasMore(false);
+        cursorRef.current = undefined;
         setCursor(undefined);
+        setHasMore(false);
       }
     } catch (err) {
       setError(
@@ -64,11 +62,11 @@ export function NFTGrid() {
       setLoading(false);
       setLoadingMore(false);
     }
-  }, [cursor]);
+  }, []);
 
   useEffect(() => {
-    loadNFTs(true);
-  }, []); // eslint-disable-line react-hooks/exhaustive-deps
+    fetchPage(true);
+  }, [fetchPage]);
 
   const filteredNFTs = nfts
     .filter((nft) => {
@@ -146,7 +144,7 @@ export function NFTGrid() {
           VIEW ON OPENSEA
         </a>
         <button
-          onClick={() => loadNFTs(true)}
+          onClick={() => fetchPage(true)}
           className="ml-4 font-vt323 text-xl px-6 py-3 border-2 border-signal-green text-signal-green hover:bg-signal-green hover:text-black transition-colors"
         >
           RETRY
@@ -232,7 +230,7 @@ export function NFTGrid() {
       {hasMore && !loading && (
         <div className="text-center mt-8 pb-4">
           <button
-            onClick={() => loadNFTs(false)}
+            onClick={() => fetchPage(false)}
             disabled={loadingMore}
             className="font-vt323 text-xl px-8 py-3 border-2 border-signal-green text-signal-green hover:bg-signal-green hover:text-black transition-all disabled:opacity-50"
             style={{ boxShadow: '0 0 15px rgba(0,255,0,0.3)' }}

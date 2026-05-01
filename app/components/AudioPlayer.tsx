@@ -115,16 +115,21 @@ export function AudioPlayer({ tracks = GOODLUMS_TRACKS }: AudioPlayerProps) {
   }, [volume]);
 
   // Load new track
+  const isPlayingRef = useRef(isPlaying);
+  useEffect(() => {
+    isPlayingRef.current = isPlaying;
+  }, [isPlaying]);
+
   useEffect(() => {
     const audio = audioRef.current;
     if (!audio) return;
     setAudioError(false);
     setProgress(0);
-    if (isPlaying) {
+    if (isPlayingRef.current) {
       audio.load();
       audio.play().catch(() => {});
     }
-  }, [currentTrack]); // eslint-disable-line react-hooks/exhaustive-deps
+  }, [currentTrack]);
 
   const togglePlay = async () => {
     const audio = audioRef.current;

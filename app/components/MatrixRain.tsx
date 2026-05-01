@@ -12,17 +12,12 @@ export function MatrixRain() {
     const ctx = canvas.getContext('2d');
     if (!ctx) return;
 
-    const resize = () => {
-      canvas.width = window.innerWidth;
-      canvas.height = window.innerHeight;
-    };
-    resize();
-    window.addEventListener('resize', resize);
+    canvas.width = window.innerWidth;
+    canvas.height = window.innerHeight;
 
-    const chars = 'GOODLUMS0123456789@#$%BASEDGANG⚡';
+    const chars = 'GOODLUMS0123456789@#$%BASEDGANG';
     const fontSize = 14;
-    let columns = Math.floor(canvas.width / fontSize);
-    const drops: number[] = Array(columns).fill(1);
+    const drops: number[] = Array(Math.floor(canvas.width / fontSize)).fill(1);
 
     const draw = () => {
       ctx.fillStyle = 'rgba(0, 0, 0, 0.05)';
@@ -49,9 +44,9 @@ export function MatrixRain() {
     const resizeHandler = () => {
       canvas.width = window.innerWidth;
       canvas.height = window.innerHeight;
-      columns = Math.floor(canvas.width / fontSize);
-      drops.length = columns;
-      for (let i = 0; i < columns; i++) {
+      const newColumns = Math.floor(canvas.width / fontSize);
+      drops.length = newColumns;
+      for (let i = 0; i < newColumns; i++) {
         if (drops[i] === undefined) drops[i] = 1;
       }
     };
@@ -59,7 +54,6 @@ export function MatrixRain() {
 
     return () => {
       clearInterval(interval);
-      window.removeEventListener('resize', resize);
       window.removeEventListener('resize', resizeHandler);
     };
   }, []);
