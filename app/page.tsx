@@ -1,3 +1,4 @@
+import Image from 'next/image';
 import { SOSBanner } from './components/SOSBanner';
 import { Navigation } from './components/Navigation';
 import { MatrixRain } from './components/MatrixRain';
@@ -34,13 +35,32 @@ export default function Home() {
             }}
           />
 
-          {/* Main title */}
+          {/* Animated GOODLUMS Logo */}
+          <div className="relative inline-block mb-6">
+            <Image
+              src="https://liable-brown-mite.myfilebase.com/ipfs/QmQVkYNWCQrV5FzciYZwtW8bUST7bFRFQgfnbNpP1aCbch"
+              alt="GOODLUMS"
+              width={600}
+              height={200}
+              className="mx-auto"
+              style={{
+                maxWidth: '90vw',
+                height: 'auto',
+                filter: 'drop-shadow(0 0 30px #ff0000) drop-shadow(0 0 15px #00ff00)',
+                transform: 'rotate(-2deg)',
+              }}
+              unoptimized
+              priority
+            />
+          </div>
+
+          {/* Main title text fallback */}
           <div className="relative inline-block mb-4">
             <div
               className="glitch-text font-vt323 text-warning-red"
               data-text="GOODLUMS"
               style={{
-                fontSize: 'clamp(4rem, 12vw, 10rem)',
+                fontSize: 'clamp(3rem, 8vw, 6rem)',
                 textShadow: '3px 3px 0 #00ff00, -3px -3px 0 #0000ff, 0 0 30px #ff0000',
                 transform: 'rotate(-2deg)',
                 display: 'block',
