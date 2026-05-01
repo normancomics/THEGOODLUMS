@@ -1603,6 +1603,9 @@
             connectedAddress = accounts[0].toLowerCase();
             ethersProvider   = new ethers.providers.Web3Provider(rawProvider, 'any');
 
+            // Clear cached Hood-Pass results whenever a (potentially different) wallet connects
+            Object.keys(hoodPassCache).forEach(k => delete hoodPassCache[k]);
+
             await ensureBaseChain(rawProvider);
 
             const shortAddr = connectedAddress.slice(0, 6) + '...' + connectedAddress.slice(-4);
@@ -1880,8 +1883,9 @@
         let hoodPassLabel;
 
         if (hasHoodPass && hoodPassResults) {
-            // Find the highest-tier validated hood pass (prefer rarest: v4 < v3 < v2 < v1)
-            const orderedVersions = ['v4', 'v3', 'v2', 'v1'];
+            // Prioritise the rarest validated Hood-Pass held: v4 (33 supply) → v2 (79) → v3 (1000) → v1 (unlimited OG).
+            // This surfaces the most exclusive credential on the card while still acknowledging all holdings.
+            const orderedVersions = ['v4', 'v2', 'v3', 'v1'];
             let bestVersion = null;
             let bestTokens  = [];
             for (const v of orderedVersions) {
@@ -1914,7 +1918,8 @@
             hoodPassLabel  = hoodPassStatus;
         }
 
-        const hpClass = hoodPassStatus === 'VALIDATED' || hoodPassStatus === 'VALID'
+        // hoodPassStatus is always 'VALIDATED', 'DENIED', or another on-chain trait string — never 'VALID'
+        const hpClass = hoodPassStatus === 'VALIDATED'
             ? 'hood-pass-valid'
             : hoodPassStatus === 'DENIED'
                 ? 'hood-pass-denied'
