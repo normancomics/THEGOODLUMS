@@ -7,7 +7,7 @@ const socials = [
   {
     name: 'OpenSea',
     url: 'https://opensea.io/collection/thegoodlums',
-    logo: `${basePath}/logos/opensea.svg`,
+    logo: `${basePath}/logos/opensea.png`,
     color: '#2081E2',
     vip: false,
     label: 'COLLECTION',
@@ -23,7 +23,7 @@ const socials = [
   {
     name: 'Farcaster',
     url: 'https://farcaster.xyz/~/channel/thegoodlums',
-    logo: `${basePath}/logos/farcaster.svg`,
+    logo: `${basePath}/logos/farcaster.png`,
     color: '#8A63D2',
     vip: false,
     label: 'FARCASTER',
@@ -39,7 +39,7 @@ const socials = [
   {
     name: 'Telegram',
     url: 'https://t.me/thegoodlums',
-    logo: `${basePath}/logos/telegram.svg`,
+    logo: `${basePath}/logos/telegram.png`,
     color: '#229ED9',
     vip: true,
     label: 'VIP TELEGRAM',
@@ -47,7 +47,7 @@ const socials = [
   {
     name: 'Suno',
     url: 'https://suno.com/playlist/9cd81cff-725c-4f07-97ca-d8fd86c72810',
-    logo: `${basePath}/logos/suno.svg`,
+    logo: `${basePath}/logos/suno.png`,
     color: '#FF6B35',
     vip: false,
     label: 'PLAYLIST',

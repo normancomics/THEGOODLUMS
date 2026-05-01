@@ -5,37 +5,37 @@ const basePath = '/THEGOODLUMS';
 const affiliates = [
   {
     name: 'MILADY',
-    logo: `${basePath}/logos/affiliates/milady.svg`,
+    logo: `${basePath}/logos/affiliates/milady.png`,
     url: 'https://opensea.io/collection/milady',
     description: 'THE ORIGINAL GANG',
   },
   {
     name: 'REMILIA',
-    logo: `${basePath}/logos/affiliates/remilia.svg`,
+    logo: `${basePath}/logos/affiliates/remilia.png`,
     url: 'https://remilia.org',
     description: 'CORP HEADQUARTERS',
   },
   {
     name: 'BASED GHOULS',
-    logo: `${basePath}/logos/affiliates/based-ghouls.svg`,
+    logo: `${basePath}/logos/affiliates/based-ghouls.png`,
     url: 'https://opensea.io/collection/based-ghouls',
     description: 'GHOUL DIVISION',
   },
   {
     name: 'CIGAWRETTTS',
-    logo: `${basePath}/logos/affiliates/cigawrettts.svg`,
+    logo: `${basePath}/logos/affiliates/cigawrettts.png`,
     url: 'https://opensea.io/collection/cigawrettts',
     description: 'THE HABIT CREW',
   },
   {
     name: 'FAKE RARES',
-    logo: `${basePath}/logos/affiliates/fake-rares.svg`,
+    logo: `${basePath}/logos/affiliates/fake-rares.png`,
     url: 'https://opensea.io/collection/fake-rares',
     description: 'COUNTERFEIT KINGS',
   },
   {
     name: 'COUNTERFEIT SUPERFAKES',
-    logo: `${basePath}/logos/affiliates/counterfeit-superfakes.svg`,
+    logo: `${basePath}/logos/affiliates/counterfeit-superfakes.png`,
     url: 'https://opensea.io/collection/counterfeit-superfakes',
     description: 'SUPER FAKE SQUAD',
   },
