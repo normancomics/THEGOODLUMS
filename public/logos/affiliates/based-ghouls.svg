@@ -1,0 +1,23 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200" fill="none">
+  <rect width="200" height="200" fill="#0d0d0d"/>
+  <!-- Based Ghouls - ghost/skull aesthetic -->
+  <!-- Ghost body -->
+  <path d="M60 80 Q60 40 100 40 Q140 40 140 80 L140 150 Q130 145 120 150 Q110 155 100 150 Q90 155 80 150 Q70 145 60 150 Z" 
+    fill="#1a1a2e" stroke="#7fff00" stroke-width="2"/>
+  <!-- Eyes - hollow -->
+  <ellipse cx="83" cy="85" rx="12" ry="15" fill="#7fff00"/>
+  <ellipse cx="117" cy="85" rx="12" ry="15" fill="#7fff00"/>
+  <!-- Dark pupils -->
+  <circle cx="83" cy="87" r="6" fill="#0d0d0d"/>
+  <circle cx="117" cy="87" r="6" fill="#0d0d0d"/>
+  <!-- Grin -->
+  <path d="M76 115 Q88 128 100 120 Q112 128 124 115" stroke="#7fff00" stroke-width="2" fill="none"/>
+  <!-- Teeth -->
+  <rect x="82" y="115" width="8" height="10" fill="#7fff00" rx="1"/>
+  <rect x="96" y="115" width="8" height="10" fill="#7fff00" rx="1"/>
+  <rect x="110" y="115" width="8" height="10" fill="#7fff00" rx="1"/>
+  <!-- Glow effect -->
+  <ellipse cx="100" cy="100" rx="60" ry="70" fill="none" stroke="#7fff00" stroke-width="1" opacity="0.2"/>
+  <!-- Text -->
+  <text x="100" y="185" font-family="monospace" font-size="9" fill="#7fff00" text-anchor="middle" font-weight="bold">BASED GHOULS</text>
+</svg>
