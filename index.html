@@ -1530,9 +1530,9 @@
         <li><a href="traits-explorer.html">TRAITS</a></li>
         <li><a href="https://opensea.io/collection/thegoodlums" target="_blank" class="nav-opensea">BUY NFT</a></li>
     </ul>
-    <div class="hamburger" id="hamburger" onclick="toggleNav()" aria-label="Toggle navigation">
+    <button class="hamburger" id="hamburger" onclick="toggleNav()" aria-label="Toggle navigation" aria-expanded="false" aria-controls="navLinks">
         <span></span><span></span><span></span>
-    </div>
+    </button>
 </nav>
 
 <!-- Fixed Social Sidebar -->
@@ -2057,7 +2057,10 @@
 
     // ── Nav Toggle ───────────────────────────────────────────────
     function toggleNav() {
-        document.getElementById('navLinks').classList.toggle('open');
+        const links = document.getElementById('navLinks');
+        const btn = document.getElementById('hamburger');
+        const isOpen = links.classList.toggle('open');
+        btn.setAttribute('aria-expanded', isOpen ? 'true' : 'false');
     }
 
     // ── NFT Gallery Data ─────────────────────────────────────────
@@ -2069,7 +2072,9 @@
 
     function pickRandom(arr) { return arr[Math.floor(Math.random() * arr.length)]; }
 
-    // Seed randomness for consistency
+    // Deterministic pseudo-random: returns 0–1 for a given numeric seed.
+    // Used so NFT trait assignments stay consistent across page reloads
+    // without needing a server-side source of truth.
     function seededRandom(seed) {
         const x = Math.sin(seed) * 10000;
         return x - Math.floor(x);
