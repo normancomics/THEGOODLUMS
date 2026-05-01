@@ -1,0 +1,20 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200" fill="none">
+  <rect width="200" height="200" fill="#1a0a1a"/>
+  <!-- Milady - anime-style girl silhouette -->
+  <circle cx="100" cy="65" r="30" fill="#ff69b4" stroke="#ff1493" stroke-width="2"/>
+  <!-- Hair -->
+  <path d="M70 55 Q60 30 80 25 Q100 15 120 25 Q140 30 130 55" fill="#2d1b2e" stroke="#8b0057" stroke-width="1"/>
+  <path d="M70 55 Q65 80 70 100" fill="#2d1b2e" stroke="#8b0057" stroke-width="1"/>
+  <path d="M130 55 Q135 80 130 100" fill="#2d1b2e" stroke="#8b0057" stroke-width="1"/>
+  <!-- Face features -->
+  <circle cx="90" cy="65" r="4" fill="#2d1b2e"/>
+  <circle cx="110" cy="65" r="4" fill="#2d1b2e"/>
+  <path d="M92 75 Q100 82 108 75" stroke="#2d1b2e" stroke-width="2" fill="none" stroke-linecap="round"/>
+  <!-- Blush -->
+  <circle cx="84" cy="72" r="6" fill="#ff69b4" opacity="0.5"/>
+  <circle cx="116" cy="72" r="6" fill="#ff69b4" opacity="0.5"/>
+  <!-- Body -->
+  <path d="M75 95 Q100 90 125 95 L130 160 L70 160 Z" fill="#ff69b4" stroke="#ff1493" stroke-width="1"/>
+  <!-- Text -->
+  <text x="100" y="185" font-family="monospace" font-size="14" fill="#ff69b4" text-anchor="middle" font-weight="bold">MILADY</text>
+</svg>

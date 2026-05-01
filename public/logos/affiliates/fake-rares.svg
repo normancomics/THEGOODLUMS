@@ -1,0 +1,24 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200" fill="none">
+  <rect width="200" height="200" fill="#001a00"/>
+  <!-- Fake Rares - Pepe-inspired frog face -->
+  <!-- Frog head -->
+  <ellipse cx="100" cy="105" rx="65" ry="60" fill="#4a9e47" stroke="#2d7a2a" stroke-width="2"/>
+  <!-- Frog eyes (bugged out) -->
+  <circle cx="72" cy="68" r="20" fill="#4a9e47" stroke="#2d7a2a" stroke-width="2"/>
+  <circle cx="128" cy="68" r="20" fill="#4a9e47" stroke="#2d7a2a" stroke-width="2"/>
+  <circle cx="72" cy="68" r="14" fill="white"/>
+  <circle cx="128" cy="68" r="14" fill="white"/>
+  <circle cx="74" cy="70" r="8" fill="#1a1a1a"/>
+  <circle cx="130" cy="70" r="8" fill="#1a1a1a"/>
+  <circle cx="76" cy="68" r="3" fill="white"/>
+  <circle cx="132" cy="68" r="3" fill="white"/>
+  <!-- Nostrils -->
+  <ellipse cx="93" cy="100" rx="5" ry="4" fill="#2d7a2a"/>
+  <ellipse cx="107" cy="100" rx="5" ry="4" fill="#2d7a2a"/>
+  <!-- Mouth - sad Pepe -->
+  <path d="M68 125 Q100 118 132 125" stroke="#2d7a2a" stroke-width="3" fill="none" stroke-linecap="round"/>
+  <!-- Pepe lip -->
+  <path d="M75 130 Q100 148 125 130" fill="#c8a882" stroke="#a08060" stroke-width="1"/>
+  <!-- Text -->
+  <text x="100" y="185" font-family="monospace" font-size="11" fill="#4a9e47" text-anchor="middle" font-weight="bold">FAKE RARES</text>
+</svg>
