@@ -1,0 +1,947 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>⚠️ GOODLUMS DATABASE ⚠️ CLASSIFIED</title>
+    <link href="https://fonts.googleapis.com/css2?family=VT323&family=Courier+Prime:wght@400;700&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            cursor: crosshair;
+        }
+
+        @keyframes glitch {
+            0% { transform: translate(0); }
+            20% { transform: translate(-2px, 2px); }
+            40% { transform: translate(-2px, -2px); }
+            60% { transform: translate(2px, 2px); }
+            80% { transform: translate(2px, -2px); }
+            100% { transform: translate(0); }
+        }
+
+        @keyframes flicker {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.3; }
+        }
+
+        @keyframes scan {
+            0% { transform: translateY(-100%); }
+            100% { transform: translateY(100%); }
+        }
+
+        @keyframes rotate-chaos {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        @keyframes tv-static {
+            0% { background-position: 0 0; }
+            100% { background-position: 100% 100%; }
+        }
+
+        body {
+            font-family: 'VT323', monospace;
+            background: #000;
+            color: #0f0;
+            overflow-x: hidden;
+            position: relative;
+            animation: flicker 0.1s infinite;
+        }
+
+        body::before {
+            content: '';
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: repeating-linear-gradient(
+                0deg,
+                rgba(0, 255, 0, 0.03) 0px,
+                transparent 1px,
+                transparent 2px,
+                rgba(0, 255, 0, 0.03) 3px
+            );
+            pointer-events: none;
+            z-index: 9999;
+            animation: scan 8s linear infinite;
+        }
+
+        body::after {
+            content: '';
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: 
+                repeating-linear-gradient(90deg, rgba(255,0,0,0.02) 0, rgba(255,0,0,0.02) 1px, transparent 1px, transparent 2px),
+                repeating-linear-gradient(0deg, rgba(0,255,0,0.02) 0, rgba(0,255,0,0.02) 1px, transparent 1px, transparent 2px);
+            pointer-events: none;
+            z-index: 9998;
+        }
+
+        .tv-static {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            opacity: 0.03;
+            background-image: url('data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIzMDAiIGhlaWdodD0iMzAwIj48ZmlsdGVyIGlkPSJhIj48ZmVUdXJidWxlbmNlIGJhc2VGcmVxdWVuY3k9Ii43NSIgc3RpdGNoVGlsZXM9InN0aXRjaCIgdHlwZT0iZnJhY3RhbE5vaXNlIi8+PGZlQ29sb3JNYXRyaXggdHlwZT0ic2F0dXJhdGUiIHZhbHVlcz0iMCIvPjwvZmlsdGVyPjxwYXRoIGQ9Ik0wIDBoMzAwdjMwMEgweiIgZmlsdGVyPSJ1cmwoI2EpIiBvcGFjaXR5PSIuNSIvPjwvc3ZnPg==');
+            animation: tv-static 0.2s infinite;
+            pointer-events: none;
+            z-index: 9997;
+        }
+
+        .matrix-rain {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 1;
+            opacity: 0.1;
+        }
+
+        .glitch-container {
+            position: relative;
+        }
+
+        .glitch-text {
+            position: relative;
+            animation: glitch 0.3s infinite;
+        }
+
+        .glitch-text::before,
+        .glitch-text::after {
+            content: attr(data-text);
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+        }
+
+        .glitch-text::before {
+            left: 2px;
+            text-shadow: -2px 0 #f00;
+            clip: rect(24px, 550px, 90px, 0);
+            animation: glitch 0.5s infinite linear alternate-reverse;
+        }
+
+        .glitch-text::after {
+            left: -2px;
+            text-shadow: -2px 0 #00f;
+            clip: rect(85px, 550px, 140px, 0);
+            animation: glitch 0.4s infinite linear alternate-reverse;
+        }
+
+        .header-chaos {
+            background: linear-gradient(45deg, #000, #0a0a0a, #000);
+            border: 3px solid #0f0;
+            border-style: dashed;
+            padding: 20px;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+            box-shadow: 0 0 20px #0f0, inset 0 0 20px rgba(0, 255, 0, 0.2);
+        }
+
+        .header-chaos::before {
+            content: '⚠️ CLASSIFIED ⚠️ UNAUTHORIZED ACCESS DETECTED ⚠️ CLASSIFIED ⚠️';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 200%;
+            background: #f00;
+            color: #fff;
+            padding: 5px;
+            font-size: 12px;
+            animation: scroll-warning 10s linear infinite;
+            z-index: 10;
+        }
+
+        @keyframes scroll-warning {
+            0% { left: -100%; }
+            100% { left: 100%; }
+        }
+
+        .title-wanted {
+            font-size: 4em;
+            color: #f00;
+            text-shadow: 
+                3px 3px 0 #0f0,
+                -3px -3px 0 #00f,
+                0 0 20px #f00,
+                0 0 40px #f00;
+            transform: rotate(-2deg);
+            letter-spacing: 10px;
+            margin: 20px 0;
+        }
+
+        .subtitle-chaos {
+            font-size: 1.5em;
+            color: #ff0;
+            transform: rotate(1deg);
+            animation: glitch 1s infinite;
+        }
+
+        .radio-container {
+            position: fixed;
+            top: 100px;
+            right: 20px;
+            z-index: 10000;
+            background: linear-gradient(135deg, #000 0%, #1a1a1a 100%);
+            border: 2px solid #0f0;
+            padding: 15px;
+            border-radius: 0;
+            box-shadow: 
+                0 0 20px #0f0,
+                inset 0 0 10px rgba(0, 255, 0, 0.2),
+                5px 5px 0 rgba(255, 0, 0, 0.5);
+            transform: rotate(-1deg);
+            animation: glitch 2s infinite;
+        }
+
+        .radio-title {
+            color: #f00;
+            font-size: 1.2em;
+            text-align: center;
+            margin-bottom: 10px;
+            text-shadow: 0 0 10px #f00;
+            animation: flicker 0.5s infinite;
+        }
+
+        .play-button {
+            background: #0f0;
+            color: #000;
+            border: 3px solid #00ff00;
+            padding: 10px 20px;
+            font-family: 'VT323', monospace;
+            font-size: 1.2em;
+            cursor: pointer;
+            text-transform: uppercase;
+            box-shadow: 0 0 10px #0f0;
+            transition: all 0.2s;
+            width: 100%;
+            font-weight: bold;
+        }
+
+        .play-button:hover {
+            background: #f00;
+            color: #fff;
+            border-color: #f00;
+            box-shadow: 0 0 20px #f00;
+            transform: scale(1.1) rotate(2deg);
+        }
+
+        .hood-pass-banner {
+            background: repeating-linear-gradient(
+                45deg,
+                #000,
+                #000 10px,
+                #ff0 10px,
+                #ff0 20px
+            );
+            border: 5px solid #ff0;
+            padding: 20px;
+            margin: 30px auto;
+            max-width: 90%;
+            transform: rotate(-1deg);
+            box-shadow: 
+                0 0 30px #ff0,
+                10px 10px 0 rgba(255, 0, 0, 0.5);
+            animation: glitch 3s infinite;
+        }
+
+        .hood-pass-content {
+            background: #000;
+            padding: 20px;
+            border: 3px dashed #ff0;
+        }
+
+        .hood-pass-title {
+            font-size: 2.5em;
+            color: #ff0;
+            text-align: center;
+            text-shadow: 
+                2px 2px 0 #f00,
+                -2px -2px 0 #0f0,
+                0 0 20px #ff0;
+            transform: rotate(1deg);
+        }
+
+        .hood-pass-links {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            margin-top: 15px;
+            justify-content: center;
+        }
+
+        .hood-pass-link {
+            background: #000;
+            color: #ff0;
+            border: 2px solid #ff0;
+            padding: 8px 15px;
+            text-decoration: none;
+            font-size: 1.1em;
+            box-shadow: 0 0 10px #ff0;
+            transform: rotate(-1deg);
+            transition: all 0.2s;
+        }
+
+        .hood-pass-link:hover {
+            background: #ff0;
+            color: #000;
+            transform: rotate(1deg) scale(1.1);
+        }
+
+        .stats-hacking {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 20px;
+            margin: 40px 20px;
+        }
+
+        .stat-box {
+            background: #000;
+            border: 3px solid #0f0;
+            padding: 20px;
+            text-align: center;
+            box-shadow: 
+                0 0 20px #0f0,
+                inset 0 0 10px rgba(0, 255, 0, 0.1);
+            position: relative;
+            overflow: hidden;
+            transform: rotate(calc(-2deg + var(--rotate)));
+        }
+
+        .stat-box:nth-child(1) { --rotate: 0deg; border-color: #0f0; }
+        .stat-box:nth-child(2) { --rotate: 1deg; border-color: #f00; }
+        .stat-box:nth-child(3) { --rotate: -1deg; border-color: #00f; }
+        .stat-box:nth-child(4) { --rotate: 2deg; border-color: #ff0; }
+
+        .stat-box::before {
+            content: 'CLASSIFIED';
+            position: absolute;
+            top: 5px;
+            right: 5px;
+            font-size: 0.7em;
+            color: #f00;
+            transform: rotate(15deg);
+        }
+
+        .stat-number {
+            font-size: 3em;
+            color: #0f0;
+            text-shadow: 0 0 20px #0f0;
+            animation: flicker 2s infinite;
+        }
+
+        .stat-label {
+            color: #0f0;
+            font-size: 1.2em;
+            margin-top: 10px;
+            text-transform: uppercase;
+        }
+
+        .wanted-poster-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            gap: 30px;
+            padding: 40px 20px;
+        }
+
+        .wanted-poster {
+            background: #fff;
+            border: 5px solid #000;
+            padding: 0;
+            position: relative;
+            transform: rotate(calc(-3deg + var(--poster-rotate)));
+            box-shadow: 
+                10px 10px 0 rgba(0, 0, 0, 0.3),
+                0 0 0 10px #fff,
+                0 0 0 12px #000;
+            transition: all 0.3s;
+        }
+
+        .wanted-poster:hover {
+            transform: rotate(0deg) scale(1.05);
+            box-shadow: 
+                15px 15px 0 rgba(0, 0, 0, 0.5),
+                0 0 0 10px #fff,
+                0 0 0 12px #000,
+                0 0 30px rgba(255, 0, 0, 0.5);
+            z-index: 100;
+        }
+
+        .wanted-poster:nth-child(odd) { --poster-rotate: 3deg; }
+        .wanted-poster:nth-child(even) { --poster-rotate: -3deg; }
+
+        .wanted-header {
+            background: #000;
+            color: #fff;
+            padding: 10px;
+            text-align: center;
+            font-size: 2em;
+            border-bottom: 3px dashed #000;
+            letter-spacing: 5px;
+            background: repeating-linear-gradient(
+                45deg,
+                #000,
+                #000 10px,
+                #f00 10px,
+                #f00 20px
+            );
+        }
+
+        .poster-img-container {
+            background: #f0f0f0;
+            padding: 15px;
+            border-bottom: 3px dashed #000;
+            position: relative;
+        }
+
+        .poster-img {
+            width: 100%;
+            height: 250px;
+            object-fit: cover;
+            border: 3px solid #000;
+            filter: grayscale(1) contrast(1.2);
+        }
+
+        .missing-stamp {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            background: #f00;
+            color: #fff;
+            padding: 5px 15px;
+            transform: rotate(15deg);
+            font-size: 1.2em;
+            border: 2px solid #fff;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+            animation: flicker 1s infinite;
+        }
+
+        .poster-info {
+            background: #fff;
+            color: #000;
+            padding: 15px;
+            font-family: 'Courier Prime', monospace;
+        }
+
+        .poster-name {
+            font-size: 1.8em;
+            font-weight: bold;
+            text-align: center;
+            margin-bottom: 10px;
+            text-transform: uppercase;
+            letter-spacing: 3px;
+            color: #000;
+        }
+
+        .poster-traits {
+            font-size: 0.9em;
+            line-height: 1.6;
+            color: #000;
+        }
+
+        .poster-trait {
+            display: flex;
+            justify-content: space-between;
+            border-bottom: 1px dashed #000;
+            padding: 3px 0;
+        }
+
+        .poster-trait-label {
+            font-weight: bold;
+        }
+
+        .rarity-badge {
+            display: inline-block;
+            padding: 5px 15px;
+            margin: 10px 0;
+            font-size: 1.1em;
+            font-weight: bold;
+            text-transform: uppercase;
+            transform: rotate(-2deg);
+            border: 2px solid #000;
+        }
+
+        .rarity-legendary {
+            background: #ffd700;
+            color: #000;
+            box-shadow: 0 0 10px #ffd700;
+        }
+
+        .rarity-epic {
+            background: #a855f7;
+            color: #fff;
+        }
+
+        .rarity-rare {
+            background: #3b82f6;
+            color: #fff;
+        }
+
+        .rarity-common {
+            background: #6b7280;
+            color: #fff;
+        }
+
+        .bounty-price {
+            background: #000;
+            color: #0f0;
+            padding: 15px;
+            text-align: center;
+            font-size: 1.8em;
+            border-top: 3px dashed #000;
+            text-shadow: 0 0 10px #0f0;
+        }
+
+        .buy-button-chaos {
+            background: #f00;
+            color: #fff;
+            border: 3px solid #000;
+            padding: 12px;
+            width: 100%;
+            font-family: 'VT323', monospace;
+            font-size: 1.5em;
+            cursor: pointer;
+            text-transform: uppercase;
+            box-shadow: 5px 5px 0 #000;
+            transition: all 0.2s;
+            margin-top: 10px;
+            font-weight: bold;
+        }
+
+        .buy-button-chaos:hover {
+            background: #0f0;
+            color: #000;
+            transform: translate(-5px, -5px);
+            box-shadow: 10px 10px 0 #000;
+        }
+
+        .social-chaos {
+            position: fixed;
+            left: 20px;
+            top: 50%;
+            transform: translateY(-50%);
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+            z-index: 10000;
+        }
+
+        .social-button {
+            background: #000;
+            color: #0f0;
+            border: 2px solid #0f0;
+            padding: 15px;
+            font-size: 1.5em;
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 0 10px #0f0;
+            transition: all 0.2s;
+            width: 60px;
+            height: 60px;
+            transform: rotate(-2deg);
+        }
+
+        .social-button:hover {
+            background: #0f0;
+            color: #000;
+            transform: rotate(2deg) scale(1.1);
+            box-shadow: 0 0 20px #0f0;
+        }
+
+        .social-button:nth-child(1) { border-color: #0f0; color: #0f0; }
+        .social-button:nth-child(2) { border-color: #00f; color: #00f; }
+        .social-button:nth-child(3) { border-color: #f0f; color: #f0f; }
+        .social-button:nth-child(4) { border-color: #0ff; color: #0ff; }
+        .social-button:nth-child(5) { border-color: #ff0; color: #ff0; }
+        .social-button:nth-child(6) { border-color: #f00; color: #f00; }
+
+        .terminal-footer {
+            background: #000;
+            border: 3px solid #0f0;
+            padding: 30px;
+            margin: 40px 20px;
+            font-size: 1.2em;
+            box-shadow: 0 0 20px #0f0;
+        }
+
+        .terminal-line {
+            color: #0f0;
+            margin: 10px 0;
+            font-family: 'VT323', monospace;
+        }
+
+        .terminal-line::before {
+            content: '> ';
+            color: #f00;
+        }
+
+        .blink {
+            animation: flicker 0.5s infinite;
+        }
+
+        @media (max-width: 768px) {
+            .title-wanted {
+                font-size: 2.5em;
+            }
+            
+            .radio-container {
+                position: relative;
+                top: 0;
+                right: 0;
+                margin: 20px;
+            }
+            
+            .social-chaos {
+                position: relative;
+                left: 0;
+                top: 0;
+                transform: none;
+                flex-direction: row;
+                justify-content: center;
+                margin: 20px;
+            }
+            
+            .wanted-poster-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        .chaos-bg {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            opacity: 0.05;
+            background-image: 
+                repeating-linear-gradient(45deg, transparent, transparent 35px, rgba(255,0,0,0.1) 35px, rgba(255,0,0,0.1) 70px),
+                repeating-linear-gradient(-45deg, transparent, transparent 35px, rgba(0,255,0,0.1) 35px, rgba(0,255,0,0.1) 70px);
+            pointer-events: none;
+            z-index: 0;
+        }
+
+        .filter-controls {
+            display: flex;
+            gap: 15px;
+            justify-content: center;
+            flex-wrap: wrap;
+            margin: 30px 20px;
+        }
+
+        .filter-button {
+            background: #000;
+            color: #0f0;
+            border: 2px solid #0f0;
+            padding: 10px 25px;
+            font-family: 'VT323', monospace;
+            font-size: 1.3em;
+            cursor: pointer;
+            text-transform: uppercase;
+            box-shadow: 0 0 10px #0f0;
+            transition: all 0.2s;
+            transform: rotate(-1deg);
+        }
+
+        .filter-button:hover,
+        .filter-button.active {
+            background: #0f0;
+            color: #000;
+            transform: rotate(1deg) scale(1.1);
+        }
+    </style>
+</head>
+<body>
+    <div class="tv-static"></div>
+    <div class="chaos-bg"></div>
+    <canvas class="matrix-rain" id="matrixCanvas"></canvas>
+
+    <!-- Header -->
+    <div class="header-chaos">
+        <div class="glitch-container">
+            <h1 class="title-wanted glitch-text" data-text="⚠️ GOODLUMS ⚠️">⚠️ GOODLUMS ⚠️</h1>
+        </div>
+        <p class="subtitle-chaos">WANTED DATABASE // MISSING PERSONS // CLASSIFIED</p>
+        <p style="color: #f00; font-size: 1.3em; margin-top: 10px; animation: flicker 0.3s infinite;">
+            🚨 UNAUTHORIZED ACCESS LOGGED 🚨 IP TRACED 🚨 FBI INBOUND 🚨
+        </p>
+    </div>
+
+    <!-- Radio Player -->
+    <div class="radio-container">
+        <div class="radio-title">📻 GOODLUMS<br>RADIO 📻</div>
+        <button class="play-button" onclick="window.open('https://suno.com/playlist/9cd81cff-725c-4f07-97ca-d8fd86c72810', '_blank')">
+            ▶ PLAY SOUNDTRACK
+        </button>
+    </div>
+
+    <!-- Social Links -->
+    <div class="social-chaos">
+        <a href="https://opensea.io/collection/thegoodlums" target="_blank" class="social-button" title="OpenSea">🌊</a>
+        <a href="https://x.com/thegoodlums" target="_blank" class="social-button" title="X/Twitter">🐦</a>
+        <a href="https://discord.gg/bdAuGjBy7" target="_blank" class="social-button" title="Discord">💬</a>
+        <a href="https://farcaster.xyz/~/channel/thegoodlums" target="_blank" class="social-button" title="Farcaster">🟣</a>
+        <a href="https://t.me/thegoodlums" target="_blank" class="social-button" title="Telegram">✈️</a>
+        <a href="https://bio.site/thegoodlums" target="_blank" class="social-button" title="Bio Links">🔗</a>
+    </div>
+
+    <!-- Hood Pass Banner -->
+    <div class="hood-pass-banner">
+        <div class="hood-pass-content">
+            <h2 class="hood-pass-title">🎟️ HOOD PASS VALID 🎟️</h2>
+            <p style="color: #ff0; text-align: center; font-size: 1.3em; margin: 15px 0;">
+                ⚠️ SANKO CHAIN HOLDERS: YOUR PASS IS STILL VALID ⚠️<br>
+                (EVEN THOUGH SANKO CHAIN IS DISCONTINUED)
+            </p>
+            <div class="hood-pass-links">
+                <a href="https://opensea.io/collection/the-goodlums-hood-pass" target="_blank" class="hood-pass-link">OpenSea Hood Pass</a>
+                <a href="https://mint.club/token/base/HOODPASS" target="_blank" class="hood-pass-link">Hood Pass v2</a>
+                <a href="https://mint.club/token/base/HOODPASS3" target="_blank" class="hood-pass-link">Hood Pass v3</a>
+            </div>
+        </div>
+    </div>
+
+    <!-- Stats -->
+    <div class="stats-hacking">
+        <div class="stat-box">
+            <div class="stat-number" id="totalSupply">500</div>
+            <div class="stat-label">SUSPECTS</div>
+        </div>
+        <div class="stat-box">
+            <div class="stat-number" id="totalTraits">95</div>
+            <div class="stat-label">TRAITS</div>
+        </div>
+        <div class="stat-box">
+            <div class="stat-number">BASE</div>
+            <div class="stat-label">CHAIN</div>
+        </div>
+        <div class="stat-box">
+            <div class="stat-number">???</div>
+            <div class="stat-label">FLOOR</div>
+        </div>
+    </div>
+
+    <!-- Filter Controls -->
+    <div class="filter-controls">
+        <button class="filter-button active" onclick="filterRarity('all')">ALL SUSPECTS</button>
+        <button class="filter-button" onclick="filterRarity('legendary')">LEGENDARY</button>
+        <button class="filter-button" onclick="filterRarity('epic')">EPIC</button>
+        <button class="filter-button" onclick="filterRarity('rare')">RARE</button>
+        <button class="filter-button" onclick="filterRarity('common')">COMMON</button>
+    </div>
+
+    <!-- Wanted Posters Grid -->
+    <div class="wanted-poster-grid" id="posterGrid"></div>
+
+    <!-- Terminal Footer -->
+    <div class="terminal-footer">
+        <div class="terminal-line">ACCESSING DATABASE...</div>
+        <div class="terminal-line">DECRYPTING FILES... <span class="blink">[OK]</span></div>
+        <div class="terminal-line">LOADING GOODLUMS DATA... <span class="blink">[OK]</span></div>
+        <div class="terminal-line">BIO.SITE/THEGOODLUMS <a href="https://bio.site/thegoodlums" style="color: #0f0;">ACCESS</a></div>
+        <div class="terminal-line">BIO.SITE/GOODLUMS <a href="https://bio.site/goodlums" style="color: #0f0;">ACCESS</a></div>
+        <div class="terminal-line">TRAITS EXPLORER <a href="traits-explorer.html" style="color: #0f0;">ACCESS</a></div>
+        <div class="terminal-line" style="color: #f00;">WARNING: THIS DATA IS CLASSIFIED <span class="blink">[!!!]</span></div>
+    </div>
+
+    <script>
+        // Matrix Rain Effect
+        const canvas = document.getElementById('matrixCanvas');
+        const ctx = canvas.getContext('2d');
+
+        canvas.width = window.innerWidth;
+        canvas.height = window.innerHeight;
+
+        const matrix = "GOODLUMS0123456789@#$%^&*()";
+        const fontSize = 14;
+        const columns = canvas.width / fontSize;
+        const drops = [];
+
+        for (let i = 0; i < columns; i++) {
+            drops[i] = 1;
+        }
+
+        function drawMatrix() {
+            ctx.fillStyle = 'rgba(0, 0, 0, 0.05)';
+            ctx.fillRect(0, 0, canvas.width, canvas.height);
+
+            ctx.fillStyle = '#0f0';
+            ctx.font = fontSize + 'px VT323';
+
+            for (let i = 0; i < drops.length; i++) {
+                const text = matrix[Math.floor(Math.random() * matrix.length)];
+                ctx.fillText(text, i * fontSize, drops[i] * fontSize);
+
+                if (drops[i] * fontSize > canvas.height && Math.random() > 0.975) {
+                    drops[i] = 0;
+                }
+                drops[i]++;
+            }
+        }
+
+        setInterval(drawMatrix, 50);
+
+        // Sample NFT Data (Replace with real OpenSea data)
+        const nftData = [
+            {
+                id: 1,
+                name: "GOODLUM #001",
+                image: "https://i.seadn.io/s/raw/files/c8e1c5c1a8e8b8e8b8e8b8e8b8e8b8e8.png",
+                rarity: "legendary",
+                traits: {
+                    "GANG AFFILIATION": "CYBER SYNDICATE",
+                    "HOMELAND": "DARKNET",
+                    "ACCESSORIES": "HACKER GOGGLES",
+                    "MAGIC": "GLITCH HACK",
+                    "HOOD PASS": "VALID"
+                },
+                price: "0.069 ETH"
+            },
+            {
+                id: 2,
+                name: "GOODLUM #002",
+                image: "https://i.seadn.io/s/raw/files/a1b2c3d4e5f6g7h8i9j0k1l2m3n4o5p6.png",
+                rarity: "epic",
+                traits: {
+                    "GANG AFFILIATION": "POST-INTERNET GANG",
+                    "HOMELAND": "CYBERSPACE",
+                    "CLOTHING": "RANSOM NOTE HOODIE",
+                    "BELIEFS": "CHAOS MAGIC",
+                    "HOOD PASS": "VALID"
+                },
+                price: "0.042 ETH"
+            },
+            {
+                id: 3,
+                name: "GOODLUM #003",
+                image: "https://i.seadn.io/s/raw/files/b2c3d4e5f6g7h8i9j0k1l2m3n4o5p6q7.png",
+                rarity: "rare",
+                traits: {
+                    "GANG AFFILIATION": "MILADY MAFIA",
+                    "HOMELAND": "REMILIA LABS",
+                    "HAT": "GLITCH CAP",
+                    "NERD LEVEL": "MAXIMUM",
+                    "HOOD PASS": "VALID"
+                },
+                price: "0.033 ETH"
+            },
+            {
+                id: 4,
+                name: "GOODLUM #004",
+                image: "https://i.seadn.io/s/raw/files/c3d4e5f6g7h8i9j0k1l2m3n4o5p6q7r8.png",
+                rarity: "common",
+                traits: {
+                    "GANG AFFILIATION": "STREET LUMS",
+                    "HOMELAND": "BASE CHAIN",
+                    "HEADGEAR": "BEANIE",
+                    "HOBBIES": "SHITPOSTING",
+                    "HOOD PASS": "VALID"
+                },
+                price: "0.025 ETH"
+            }
+        ];
+
+        // Generate more random NFTs
+        for (let i = 5; i <= 20; i++) {
+            const rarities = ['legendary', 'epic', 'rare', 'common'];
+            const randomRarity = rarities[Math.floor(Math.random() * rarities.length)];
+            
+            nftData.push({
+                id: i,
+                name: `GOODLUM #${String(i).padStart(3, '0')}`,
+                image: `https://via.placeholder.com/300x300/000000/0f0?text=GOODLUM+${i}`,
+                rarity: randomRarity,
+                traits: {
+                    "GANG AFFILIATION": ["CYBER SYNDICATE", "POST-INTERNET GANG", "MILADY MAFIA", "STREET LUMS"][Math.floor(Math.random() * 4)],
+                    "HOMELAND": ["DARKNET", "CYBERSPACE", "BASE CHAIN", "REMILIA LABS"][Math.floor(Math.random() * 4)],
+                    "ACCESSORIES": ["HACKER GOGGLES", "CHAIN", "EARRING", "NONE"][Math.floor(Math.random() * 4)],
+                    "NERD LEVEL": ["MAXIMUM", "HIGH", "MEDIUM", "LOW"][Math.floor(Math.random() * 4)],
+                    "HOOD PASS": "VALID"
+                },
+                price: `${(Math.random() * 0.1 + 0.02).toFixed(3)} ETH`
+            });
+        }
+
+        let currentFilter = 'all';
+
+        function renderPosters(filter = 'all') {
+            const grid = document.getElementById('posterGrid');
+            const filtered = filter === 'all' ? nftData : nftData.filter(nft => nft.rarity === filter);
+
+            grid.innerHTML = filtered.map(nft => `
+                <div class="wanted-poster" data-rarity="${nft.rarity}">
+                    <div class="wanted-header">
+                        ${Math.random() > 0.5 ? 'WANTED' : 'MISSING'}
+                    </div>
+                    <div class="poster-img-container">
+                        <img src="${nft.image}" alt="${nft.name}" class="poster-img" onerror="this.src='https://via.placeholder.com/300x300/000000/0f0?text=${nft.name}'">
+                        <div class="missing-stamp">${Math.random() > 0.5 ? 'ARMED' : 'DANGEROUS'}</div>
+                    </div>
+                    <div class="poster-info">
+                        <div class="poster-name">${nft.name}</div>
+                        <div class="rarity-badge rarity-${nft.rarity}">${nft.rarity.toUpperCase()}</div>
+                        <div class="poster-traits">
+                            ${Object.entries(nft.traits).map(([key, value]) => `
+                                <div class="poster-trait">
+                                    <span class="poster-trait-label">${key}:</span>
+                                    <span>${value}</span>
+                                </div>
+                            `).join('')}
+                        </div>
+                    </div>
+                    <div class="bounty-price">BOUNTY: ${nft.price}</div>
+                    <button class="buy-button-chaos" onclick="window.open('https://opensea.io/collection/thegoodlums', '_blank')">
+                        🔥 CAPTURE NOW 🔥
+                    </button>
+                </div>
+            `).join('');
+        }
+
+        function filterRarity(rarity) {
+            currentFilter = rarity;
+            
+            // Update button states
+            document.querySelectorAll('.filter-button').forEach(btn => {
+                btn.classList.remove('active');
+            });
+            event.target.classList.add('active');
+            
+            renderPosters(rarity);
+        }
+
+        // Initial render
+        renderPosters();
+
+        // Resize canvas on window resize
+        window.addEventListener('resize', () => {
+            canvas.width = window.innerWidth;
+            canvas.height = window.innerHeight;
+        });
+
+        // Random glitch effect
+        setInterval(() => {
+            if (Math.random() > 0.95) {
+                document.body.style.animation = 'none';
+                setTimeout(() => {
+                    document.body.style.animation = 'flicker 0.1s infinite';
+                }, 100);
+            }
+        }, 2000);
+    </script>
+</body>
+</html>
