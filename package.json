@@ -1,0 +1,16 @@
+{
+  "name": "goodlums-dapp",
+  "version": "1.0.0",
+  "description": "THE GOODLUMS — Post-Apocalyptic Internet Gang dApp",
+  "private": true,
+  "scripts": {
+    "fetch-nfts": "node fetch-nfts.js",
+    "update": "node fetch-nfts.js"
+  },
+  "dependencies": {
+    "dotenv": "^16.4.5"
+  },
+  "engines": {
+    "node": ">=18.0.0"
+  }
+}
