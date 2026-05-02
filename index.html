@@ -72,6 +72,7 @@
             color: #0f0;
             overflow-x: hidden;
             position: relative;
+            padding-bottom: 64px;
         }
 
         body::before {
@@ -314,63 +315,62 @@
             opacity: 0.8;
         }
 
-        /* ===== SUNO PLAYER ===== */
+        /* ===== BOTTOM MUSIC PLAYER BAR ===== */
         .radio-container {
             position: fixed;
-            top: 100px;
-            right: 20px;
+            bottom: 0;
+            left: 0;
+            right: 0;
             z-index: 10000;
-            background: linear-gradient(135deg, #000 0%, #1a1a1a 100%);
-            border: 2px solid #0f0;
-            padding: 15px;
-            box-shadow:
-                0 0 20px #0f0,
-                inset 0 0 10px rgba(0, 255, 0, 0.2),
-                5px 5px 0 rgba(255, 0, 0, 0.5);
-            transform: rotate(-1deg);
-            animation: glitch 2s infinite;
-            max-width: 260px;
+            background: #0a0a0a;
+            border-top: 2px solid #0f0;
+            padding: 0;
+            display: flex;
+            align-items: center;
+            height: 64px;
+            gap: 0;
         }
 
         .radio-title {
-            color: #f00;
-            font-size: 1.2em;
+            color: #0f0;
+            font-size: 0.9em;
             text-align: center;
-            margin-bottom: 8px;
-            text-shadow: 0 0 10px #f00;
-            animation: flicker 0.5s infinite;
+            white-space: nowrap;
+            padding: 0 12px;
+            letter-spacing: 0.05em;
+            border-right: 1px solid #1a1a1a;
+            flex-shrink: 0;
         }
 
         .suno-embed-frame {
-            width: 240px;
-            height: 152px;
+            flex: 1;
+            height: 64px;
             border: none;
             display: block;
-            background: #111;
+            background: #000;
+            min-width: 0;
         }
 
         .play-button {
             background: #0f0;
             color: #000;
-            border: 3px solid #00ff00;
-            padding: 8px 15px;
+            border: none;
+            border-left: 2px solid #0f0;
+            padding: 0 14px;
             font-family: 'VT323', monospace;
-            font-size: 1.1em;
+            font-size: 1em;
             cursor: pointer;
             text-transform: uppercase;
-            box-shadow: 0 0 10px #0f0;
-            transition: all 0.2s;
-            width: 100%;
+            height: 64px;
             font-weight: bold;
-            margin-top: 6px;
-            display: block;
+            flex-shrink: 0;
+            white-space: nowrap;
         }
 
         .play-button:hover {
             background: #f00;
             color: #fff;
             border-color: #f00;
-            box-shadow: 0 0 20px #f00;
         }
 
         /* ===== NFT SECTION ===== */
@@ -912,15 +912,11 @@
         /* ===== RESPONSIVE ===== */
         @media (max-width: 768px) {
             .radio-container {
-                position: relative;
-                top: 0;
-                right: 0;
-                margin: 20px auto;
-                max-width: 100%;
+                height: 56px;
             }
 
             .suno-embed-frame {
-                width: 100%;
+                height: 56px;
             }
 
             .social-chaos {
@@ -1215,10 +1211,15 @@
     <!-- ===== WALLET SELECTION MODAL ===== -->
     <div class="wallet-modal-overlay" id="walletModal">
         <div class="wallet-modal-content">
-            <div class="wallet-modal-title">🔐 SELECT WALLET</div>
+            <div class="wallet-modal-title">🔐 CONNECT TO GOODLUMS</div>
+
+            <div style="color:#ff0; font-size:0.8em; text-align:center; margin-bottom:8px; letter-spacing:0.05em;">— CRYPTO WALLET —</div>
 
             <button class="wallet-option-btn" onclick="connectMetaMask()">
                 <span class="wallet-icon">🦊</span> MetaMask
+            </button>
+            <button class="wallet-option-btn" onclick="connectRainbow()">
+                <span class="wallet-icon">🌈</span> Rainbow
             </button>
             <button class="wallet-option-btn" onclick="connectCoinbase()">
                 <span class="wallet-icon">💙</span> Coinbase Wallet
@@ -1232,9 +1233,24 @@
             <button class="wallet-option-btn" onclick="connectFarcaster()">
                 <span class="wallet-icon">🟣</span> Farcaster (Warpcast)
             </button>
-            <button class="wallet-option-btn" onclick="connectWalletConnect()" style="opacity:0.7;">
-                <span class="wallet-icon">🔗</span> WalletConnect v2
-                <span style="font-size:0.55em; background:#f00; color:#fff; padding:2px 6px; margin-left:auto; vertical-align:middle;">NEEDS PROJECT ID</span>
+            <button class="wallet-option-btn" onclick="connectWalletConnect()">
+                <span class="wallet-icon">🔗</span> WalletConnect v2 (Reown)
+            </button>
+
+            <div style="color:#ff0; font-size:0.8em; text-align:center; margin:10px 0 6px; letter-spacing:0.05em; border-top:1px dashed #333; padding-top:10px;">— SOCIAL IDENTITY —</div>
+            <div style="font-size:0.75em; color:#888; text-align:center; margin-bottom:6px;">Verify your identity via social profile</div>
+
+            <button class="wallet-option-btn" onclick="connectGitHub()">
+                <span class="wallet-icon">🐙</span> GitHub
+            </button>
+            <button class="wallet-option-btn" onclick="connectTwitter()">
+                <span class="wallet-icon">🐦</span> X / Twitter
+            </button>
+            <button class="wallet-option-btn" onclick="connectEthos()">
+                <span class="wallet-icon">🔷</span> Ethos
+            </button>
+            <button class="wallet-option-btn" onclick="connectIcebreaker()">
+                <span class="wallet-icon">🧊</span> Icebreaker
             </button>
 
             <p class="wallet-modal-note">Connecting loads Base Chain (8453) automatically</p>
@@ -1250,10 +1266,10 @@
         <button class="popup-close" onclick="closeHoodPassPopup()">✕ CLOSE</button>
     </div>
 
-    <!-- ===== RADIO / PLAYLIST PLAYER ===== -->
+    <!-- ===== BOTTOM MUSIC PLAYER BAR ===== -->
     <div class="radio-container">
-        <div class="radio-title">📻 GOODLUMS<br>RADIO 📻</div>
-        <!-- Suno embed — autoplay attribute set; browsers may restrict unmuted autoplay -->
+        <div class="radio-title">📻 GOODLUMS<br>RADIO</div>
+        <!-- Suno embed: autoplay=1 + allow="autoplay" — browser muted-autoplay policies apply -->
         <iframe
             id="sunoPlayer"
             class="suno-embed-frame"
@@ -1263,7 +1279,7 @@
             scrolling="no"
         ></iframe>
         <a href="https://suno.com/playlist/9cd81cff-725c-4f07-97ca-d8fd86c72810" target="_blank" rel="noopener">
-            <button class="play-button">▶ OPEN FULL PLAYLIST</button>
+            <button class="play-button">▶ FULL PLAYLIST</button>
         </a>
     </div>
 
@@ -1319,7 +1335,7 @@
                 a different era and rank within the gang. Holding any Hood-Pass validates your membership status
                 on-chain. Your Hood-Pass version determines your tier — v1 holders are OG GOODLUMS, v2 are ultra-rare
                 (only 79 ever minted), v3 are the General Mogadishu crew (1000 max), and v4 are the On Chain
-                Jihadists From Space (33 limited cards).
+                Jihadists From Space (65 limited cards).
             </p>
             <p>
                 Connect your wallet and click <strong style="color:#0f0;">CHECK OWNERSHIP</strong> on any collection
@@ -1395,8 +1411,8 @@
             <div class="hp-collection-card" id="hpCard_v4">
                 <div class="hp-version-badge">v4</div>
                 <div class="hp-col-name">THE GOODLUMS ON CHAIN JIHADISTS FROM SPACE</div>
-                <div class="hp-col-supply">SUPPLY: <span>LIMITED TO 33 CARDS</span> <span class="hp-rarity-badge">RARE</span></div>
-                <div class="hp-col-format">FORMAT: X/33</div>
+                <div class="hp-col-supply">SUPPLY: <span>LIMITED TO 65 CARDS</span> <span class="hp-rarity-badge">RARE</span></div>
+                <div class="hp-col-format">FORMAT: X/65</div>
                 <div class="hp-col-contract">CA: 0x19b931a5d61cd34d72f2efd48bcfc9ffe6bdbe93</div>
                 <div class="hp-col-status" id="hpStatus_v4">
                     <span class="hp-status-pending">CONNECT WALLET TO VERIFY</span>
@@ -1520,7 +1536,7 @@
         v4: {
             name: 'THE GOODLUMS ON CHAIN JIHADISTS FROM SPACE',
             contract: '0x19b931a5d61cd34d72f2efd48bcfc9ffe6bdbe93',
-            total: 33,
+            total: 65,
             opensea: 'https://opensea.io/assets/base/0x19b931a5d61cd34d72f2efd48bcfc9ffe6bdbe93'
         }
     };
@@ -1642,6 +1658,27 @@
         await connectProvider(window.ethereum, 'MetaMask');
     }
 
+    async function connectRainbow() {
+        // Rainbow injects window.ethereum with isRainbow flag in its mobile browser
+        const provider = window.ethereum;
+        if (provider && provider.isRainbow) {
+            await connectProvider(provider, 'Rainbow');
+            return;
+        }
+        // If injected provider is present but not Rainbow, still try (user may have Rainbow as default)
+        if (provider) {
+            await connectProvider(provider, 'Rainbow');
+            return;
+        }
+        // Not installed — direct to download
+        const go = confirm(
+            'Rainbow Wallet not detected.\n\n' +
+            'Get Rainbow at rainbow.me — available on iOS, Android, and as a browser extension.\n\n' +
+            'Open rainbow.me?'
+        );
+        if (go) window.open('https://rainbow.me/download', '_blank', 'noopener');
+    }
+
     async function connectRabby() {
         if (!window.ethereum) {
             alert('Rabby not detected. Install from rabby.io');
@@ -1707,9 +1744,59 @@
             '1. Get a free Project ID at cloud.reown.com\n' +
             '2. Add it to the site configuration\n\n' +
             'Meanwhile, you can connect via MetaMask, Coinbase, Rabby, or Zerion.\n\n' +
-            'Open WalletConnect docs?';
+            'Open WalletConnect / Reown docs?';
         if (confirm(msg)) {
             window.open(wcUri, '_blank', 'noopener');
+        }
+    }
+
+    // ============================================================
+    //  SOCIAL IDENTITY CONNECTORS
+    //  (Profile-based identity verification — no backend required)
+    // ============================================================
+    function connectGitHub() {
+        closeWalletModal();
+        const user = prompt('Enter your GitHub username to verify your identity:');
+        if (!user || !user.trim()) return;
+        const url = 'https://github.com/' + encodeURIComponent(user.trim());
+        window.open(url, '_blank', 'noopener');
+        updateWalletUI('GitHub: @' + user.trim(), null, '🐙');
+    }
+
+    function connectTwitter() {
+        closeWalletModal();
+        const user = prompt('Enter your X / Twitter handle (without @) to verify:');
+        if (!user || !user.trim()) return;
+        const url = 'https://x.com/' + encodeURIComponent(user.trim());
+        window.open(url, '_blank', 'noopener');
+        updateWalletUI('X: @' + user.trim(), null, '🐦');
+    }
+
+    function connectEthos() {
+        closeWalletModal();
+        const input = prompt('Enter your Ethos profile address, ENS, or username:');
+        if (!input || !input.trim()) return;
+        const url = 'https://ethos.network/profile/' + encodeURIComponent(input.trim());
+        window.open(url, '_blank', 'noopener');
+        updateWalletUI('Ethos: ' + input.trim(), null, '🔷');
+    }
+
+    function connectIcebreaker() {
+        closeWalletModal();
+        window.open('https://app.icebreaker.xyz/', '_blank', 'noopener');
+        updateWalletUI('Icebreaker', null, '🧊');
+    }
+
+    // Update wallet button / status for social identity (no on-chain data)
+    function updateWalletUI(label, address, icon) {
+        const btn = document.getElementById('connectWalletBtn');
+        const statusEl = document.getElementById('walletStatusDisplay');
+        if (btn) {
+            btn.textContent = (icon || '🔑') + ' ' + label;
+            btn.classList.add('connected');
+        }
+        if (statusEl) {
+            statusEl.textContent = label;
         }
     }
 
@@ -1883,7 +1970,7 @@
         let hoodPassLabel;
 
         if (hasHoodPass && hoodPassResults) {
-            // Prioritise the rarest validated Hood-Pass held: v4 (33 supply) → v2 (79) → v3 (1000) → v1 (unlimited OG).
+            // Prioritise the rarest validated Hood-Pass held: v4 (65 supply) → v2 (79) → v3 (1000) → v1 (unlimited OG).
             // This surfaces the most exclusive credential on the card while still acknowledging all holdings.
             const orderedVersions = ['v4', 'v2', 'v3', 'v1'];
             let bestVersion = null;
@@ -2016,7 +2103,7 @@
                 '<p>v1: <code style="color:#0f0;font-size:0.8em;">' + HOOD_PASS_COLLECTIONS.v1.contract + '</code></p>' +
                 '<p>v2 (79 total): <code style="color:#0f0;font-size:0.8em;">' + HOOD_PASS_COLLECTIONS.v2.contract + '</code></p>' +
                 '<p>v3 — GENERAL MOGADISHU (1000 total): <code style="color:#0f0;font-size:0.8em;">' + HOOD_PASS_COLLECTIONS.v3.contract + '</code></p>' +
-                '<p>v4 — ON CHAIN JIHADISTS FROM SPACE (33 total): <code style="color:#0f0;font-size:0.8em;">' + HOOD_PASS_COLLECTIONS.v4.contract + '</code></p>' +
+                '<p>v4 — ON CHAIN JIHADISTS FROM SPACE (65 total): <code style="color:#0f0;font-size:0.8em;">' + HOOD_PASS_COLLECTIONS.v4.contract + '</code></p>' +
                 '<hr style="border-color:#333; margin:10px 0;">' +
                 '<p><strong style="color:#ff0;">EXAMPLE — TOKEN #15 (GANDALFABULOUS):</strong></p>' +
                 '<p>Owner: <a href="https://opensea.io/quincredible.eth" target="_blank" rel="noopener">quincredible.eth</a><br>' +
@@ -2034,7 +2121,7 @@
                 '<p>v1 (OG): <a href="' + HOOD_PASS_COLLECTIONS.v1.opensea + '" target="_blank" rel="noopener">View on OpenSea →</a></p>' +
                 '<p>v2 (79 total): <a href="' + HOOD_PASS_COLLECTIONS.v2.opensea + '" target="_blank" rel="noopener">View on OpenSea →</a></p>' +
                 '<p>v3 — GENERAL MOGADISHU (1000 total): <a href="' + HOOD_PASS_COLLECTIONS.v3.opensea + '" target="_blank" rel="noopener">View on OpenSea →</a></p>' +
-                '<p>v4 — ON CHAIN JIHADISTS FROM SPACE (33 total): <a href="' + HOOD_PASS_COLLECTIONS.v4.opensea + '" target="_blank" rel="noopener">View on OpenSea →</a></p>';
+                '<p>v4 — ON CHAIN JIHADISTS FROM SPACE (65 total): <a href="' + HOOD_PASS_COLLECTIONS.v4.opensea + '" target="_blank" rel="noopener">View on OpenSea →</a></p>';
         } else {
             html =
                 '<p>HOOD PASS STATUS: <strong>' + escapeHtml(hoodPassStatus) + '</strong></p>' +
