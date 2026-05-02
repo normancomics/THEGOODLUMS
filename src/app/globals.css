@@ -1,0 +1,294 @@
+@import "tailwindcss";
+
+@theme {
+  --font-family-vt323: "VT323", monospace;
+  --font-family-courier: "Courier Prime", "Courier New", monospace;
+
+  --color-acid-green: #00ff00;
+  --color-neon-yellow: #ffe600;
+  --color-decay-gray: #1a1a1a;
+  --color-rust: #8b4513;
+  --color-blood-red: #cc0000;
+
+  --animate-glitch: glitch 0.5s infinite;
+  --animate-flicker: flicker 0.15s infinite;
+  --animate-scan: scan 8s linear infinite;
+  --animate-blink: blink 1s step-end infinite;
+  --animate-float: float 3s ease-in-out infinite;
+  --animate-matrix-fall: matrixFall 2s linear infinite;
+}
+
+/* ===== GLOBAL RESET & BASE ===== */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+:root {
+  --acid-green: #00ff00;
+  --neon-yellow: #ffe600;
+  --decay-gray: #1a1a1a;
+  --rust: #8b4513;
+  --blood-red: #cc0000;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  font-family: 'VT323', monospace;
+  background: #000;
+  color: var(--acid-green);
+  overflow-x: hidden;
+}
+
+/* ===== CRT SCANLINES OVERLAY ===== */
+body::before {
+  content: '';
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: repeating-linear-gradient(
+    0deg,
+    rgba(0, 255, 0, 0.03) 0px,
+    transparent 1px,
+    transparent 2px,
+    rgba(0, 255, 0, 0.03) 3px
+  );
+  pointer-events: none;
+  z-index: 9998;
+  animation: scan 8s linear infinite;
+}
+
+/* ===== CHUNKY 3D BUTTON SYSTEM ===== */
+.chunky-btn {
+  position: relative;
+  display: inline-block;
+  padding: 14px 28px;
+  font-family: 'VT323', monospace;
+  font-size: 1.25rem;
+  font-weight: 900;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  border: 4px solid #000;
+  cursor: pointer;
+  transition: transform 0.1s ease, box-shadow 0.1s ease;
+  text-decoration: none;
+  user-select: none;
+  line-height: 1;
+}
+
+.chunky-btn:hover {
+  transform: translateY(-4px);
+}
+
+.chunky-btn:active {
+  transform: translateY(6px);
+}
+
+/* Primary - Acid Green */
+.chunky-btn-primary {
+  background: #00ff00;
+  color: #000;
+  box-shadow: 0 6px 0 #000, 0 10px 0 #0a0, 0 14px 0 #000, 0 18px 25px rgba(0,0,0,0.4);
+}
+.chunky-btn-primary:hover {
+  box-shadow: 0 10px 0 #000, 0 14px 0 #0a0, 0 18px 0 #000, 0 22px 35px rgba(0,0,0,0.5);
+}
+.chunky-btn-primary:active {
+  box-shadow: 0 3px 0 #000, 0 5px 0 #0a0, 0 7px 15px rgba(0,0,0,0.3);
+}
+
+/* Secondary - Neon Yellow */
+.chunky-btn-secondary {
+  background: #ffe600;
+  color: #000;
+  box-shadow: 0 6px 0 #000, 0 10px 0 #cc0, 0 14px 0 #000, 0 18px 25px rgba(0,0,0,0.4);
+}
+.chunky-btn-secondary:hover {
+  box-shadow: 0 10px 0 #000, 0 14px 0 #cc0, 0 18px 0 #000, 0 22px 35px rgba(0,0,0,0.5);
+}
+.chunky-btn-secondary:active {
+  box-shadow: 0 3px 0 #000, 0 5px 0 #cc0, 0 7px 15px rgba(0,0,0,0.3);
+}
+
+/* Warning - Blood Red */
+.chunky-btn-warning {
+  background: #cc0000;
+  color: #fff;
+  box-shadow: 0 6px 0 #000, 0 10px 0 #800, 0 14px 0 #000, 0 18px 25px rgba(0,0,0,0.4);
+}
+.chunky-btn-warning:hover {
+  box-shadow: 0 10px 0 #000, 0 14px 0 #800, 0 18px 0 #000, 0 22px 35px rgba(0,0,0,0.5);
+}
+.chunky-btn-warning:active {
+  box-shadow: 0 3px 0 #000, 0 5px 0 #800, 0 7px 15px rgba(0,0,0,0.3);
+}
+
+/* Success - Cyan */
+.chunky-btn-success {
+  background: #00cccc;
+  color: #000;
+  box-shadow: 0 6px 0 #000, 0 10px 0 #088, 0 14px 0 #000, 0 18px 25px rgba(0,0,0,0.4);
+}
+.chunky-btn-success:hover {
+  box-shadow: 0 10px 0 #000, 0 14px 0 #088, 0 18px 0 #000, 0 22px 35px rgba(0,0,0,0.5);
+}
+.chunky-btn-success:active {
+  box-shadow: 0 3px 0 #000, 0 5px 0 #088, 0 7px 15px rgba(0,0,0,0.3);
+}
+
+/* ===== GLITCH TEXT EFFECT ===== */
+.glitch-text {
+  position: relative;
+  animation: glitch 0.5s infinite;
+}
+
+.glitch-text::before,
+.glitch-text::after {
+  content: attr(data-text);
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+}
+
+.glitch-text::before {
+  color: #ff0000;
+  animation: glitchTop 0.3s infinite;
+  clip-path: polygon(0 0, 100% 0, 100% 45%, 0 45%);
+}
+
+.glitch-text::after {
+  color: #0000ff;
+  animation: glitchBot 0.3s infinite;
+  clip-path: polygon(0 55%, 100% 55%, 100% 100%, 0 100%);
+}
+
+@keyframes glitch {
+  0% { transform: translate(0); }
+  20% { transform: translate(-2px, 2px); }
+  40% { transform: translate(-2px, -2px); }
+  60% { transform: translate(2px, 2px); }
+  80% { transform: translate(2px, -2px); }
+  100% { transform: translate(0); }
+}
+
+@keyframes glitchTop {
+  0% { transform: translate(0); }
+  25% { transform: translate(-3px, 0); }
+  50% { transform: translate(3px, 0); }
+  75% { transform: translate(0, -3px); }
+  100% { transform: translate(0); }
+}
+
+@keyframes glitchBot {
+  0% { transform: translate(0); }
+  25% { transform: translate(3px, 0); }
+  50% { transform: translate(-3px, 0); }
+  75% { transform: translate(0, 3px); }
+  100% { transform: translate(0); }
+}
+
+@keyframes scan {
+  0% { background-position: 0 0; }
+  100% { background-position: 0 100%; }
+}
+
+@keyframes flicker {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.8; }
+}
+
+@keyframes blink {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0; }
+}
+
+/* ===== NFT CARD FLIP ===== */
+.card-3d-container {
+  perspective: 1000px;
+}
+
+.card-3d-inner {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  transform-style: preserve-3d;
+  transition: transform 0.6s ease;
+}
+
+.card-3d-container:hover .card-3d-inner,
+.card-3d-container.flipped .card-3d-inner {
+  transform: rotateY(180deg);
+}
+
+.card-face {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  backface-visibility: hidden;
+  -webkit-backface-visibility: hidden;
+}
+
+.card-back {
+  transform: rotateY(180deg);
+}
+
+/* ===== NEON GLOW EFFECTS ===== */
+.neon-green {
+  text-shadow: 0 0 7px #00ff00, 0 0 14px #00ff00, 0 0 21px #00ff00;
+}
+
+.neon-yellow {
+  text-shadow: 0 0 7px #ffe600, 0 0 14px #ffe600, 0 0 21px #ffe600;
+}
+
+.neon-border-green {
+  box-shadow: 0 0 10px #00ff00, 0 0 20px #00ff00, inset 0 0 10px rgba(0,255,0,0.1);
+}
+
+/* ===== TERMINAL STYLE ===== */
+.terminal-text {
+  font-family: 'Courier Prime', 'Courier New', monospace;
+}
+
+/* ===== SCROLLBAR ===== */
+::-webkit-scrollbar {
+  width: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: #000;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #00ff00;
+  border: 1px solid #000;
+}
+
+/* ===== AFFILIATE LOGO HOVER ===== */
+.affiliate-card {
+  transition: all 0.3s ease;
+  filter: grayscale(60%) brightness(0.8);
+}
+
+.affiliate-card:hover {
+  filter: grayscale(0%) brightness(1.2);
+  transform: translateY(-4px) scale(1.05);
+}
+
+/* ===== AUDIO PLAYER ===== */
+.audio-player {
+  backdrop-filter: blur(10px);
+}
+
+/* ===== VIP MODAL ===== */
+.modal-overlay {
+  backdrop-filter: blur(4px);
+}
