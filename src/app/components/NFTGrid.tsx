@@ -43,15 +43,15 @@ export function NFTGrid() {
       <div className="max-w-7xl mx-auto">
         <h2
           className="text-center text-green-400 mb-4 tracking-widest"
-          style={{ fontFamily: 'VT323, monospace', fontSize: '2.5rem' }}
+          style={{ fontFamily: 'VT323, monospace', fontSize: '2.8rem' }}
         >
-          {'>'} THE SUSPECTS {'<'}
+          THE SUSPECT DATABASE
         </h2>
         <p
           className="text-center text-gray-500 mb-10 text-sm tracking-widest"
           style={{ fontFamily: 'Courier Prime, monospace' }}
         >
-          500 POST-APOCALYPTIC SPECIMENS ON BASE CHAIN
+          500 POST-APOCALYPTIC SPECIMENS — BASE CHAIN — FLIP CARD FOR INTEL
         </p>
 
         {/* Filter buttons */}
