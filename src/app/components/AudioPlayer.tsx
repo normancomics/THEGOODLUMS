@@ -1,14 +1,9 @@
 'use client';
 
-import { useEffect, useRef, useState } from 'react';
-
-const TRACKS = [
-  { title: 'GOODLUMS RADIO — SIGNAL 1', url: 'https://suno.com/playlist/9cd81cff-725c-4f07-97ca-d8fd86c72810' },
-];
+import { useState } from 'react';
 
 export function AudioPlayer() {
   const [playing, setPlaying] = useState(false);
-  const [volume, setVolume] = useState(0.7);
   const [minimized, setMinimized] = useState(false);
 
   // Browser autoplay policy: we can't autoplay without user gesture
