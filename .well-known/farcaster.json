@@ -1,0 +1,10 @@
+{
+  "frame": {
+    "version": "1",
+    "name": "THE GOODLUMS",
+    "iconUrl": "https://normancomics.github.io/THEGOODLUMS/icon.svg",
+    "homeUrl": "https://normancomics.github.io/THEGOODLUMS/frame.html",
+    "splashImageUrl": "https://normancomics.github.io/THEGOODLUMS/splash.svg",
+    "splashBackgroundColor": "#000000"
+  }
+}

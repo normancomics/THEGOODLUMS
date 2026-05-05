@@ -1,0 +1,593 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>THE GOODLUMS — Farcaster Mini-App</title>
+
+    <!-- Open Graph / Social -->
+    <meta property="og:title" content="THE GOODLUMS" />
+    <meta property="og:description" content="Post-apocalyptic internet gang. 500 suspects on Base chain. No new members." />
+    <meta property="og:image" content="https://normancomics.github.io/THEGOODLUMS/splash.svg" />
+    <meta property="og:url" content="https://normancomics.github.io/THEGOODLUMS/frame.html" />
+    <meta property="og:type" content="website" />
+
+    <!-- Farcaster Mini-App Frame meta tag -->
+    <meta name="fc:frame" content='{"version":"next","imageUrl":"https://normancomics.github.io/THEGOODLUMS/splash.svg","button":{"title":"🔫 ENTER THE GANG","action":{"type":"launch_frame","name":"THE GOODLUMS","url":"https://normancomics.github.io/THEGOODLUMS/frame.html","splashImageUrl":"https://normancomics.github.io/THEGOODLUMS/splash.svg","splashBackgroundColor":"#000000"}}}' />
+
+    <link href="https://fonts.googleapis.com/css2?family=VT323&family=Courier+Prime:wght@400;700&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'VT323', monospace;
+            background: #000;
+            color: #0f0;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            overflow-x: hidden;
+        }
+
+        /* CRT scanline overlay */
+        body::before {
+            content: '';
+            position: fixed;
+            top: 0; left: 0;
+            width: 100%; height: 100%;
+            background: repeating-linear-gradient(
+                0deg,
+                rgba(0, 255, 0, 0.03) 0px,
+                transparent 1px,
+                transparent 2px,
+                rgba(0, 255, 0, 0.03) 3px
+            );
+            pointer-events: none;
+            z-index: 9999;
+        }
+
+        @keyframes flicker {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.92; }
+        }
+
+        @keyframes glitch {
+            0% { transform: translate(0); }
+            20% { transform: translate(-2px, 2px); }
+            40% { transform: translate(-2px, -2px); }
+            60% { transform: translate(2px, 2px); }
+            80% { transform: translate(2px, -2px); }
+            100% { transform: translate(0); }
+        }
+
+        @keyframes pulse-border {
+            0%, 100% { border-color: #0f0; box-shadow: 0 0 8px #0f0; }
+            50% { border-color: #f00; box-shadow: 0 0 8px #f00; }
+        }
+
+        .frame-container {
+            width: 100%;
+            max-width: 424px;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            padding: 16px;
+            gap: 12px;
+        }
+
+        /* Header */
+        .header {
+            text-align: center;
+            border: 2px solid #0f0;
+            padding: 12px 8px;
+            background: #000;
+            position: relative;
+        }
+
+        .header::before {
+            content: '⚠ CLASSIFIED ⚠';
+            position: absolute;
+            top: -10px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: #f00;
+            color: #000;
+            font-size: 0.75em;
+            padding: 1px 8px;
+            letter-spacing: 2px;
+        }
+
+        .title-main {
+            font-size: 2.8em;
+            color: #0f0;
+            letter-spacing: 4px;
+            animation: flicker 2s infinite;
+            line-height: 1;
+        }
+
+        .title-sub {
+            font-size: 1em;
+            color: #f00;
+            letter-spacing: 3px;
+            margin-top: 4px;
+        }
+
+        /* User card */
+        .user-card {
+            border: 1px solid #0f0;
+            padding: 10px;
+            font-size: 1.1em;
+            display: none;
+        }
+
+        .user-card.visible {
+            display: block;
+        }
+
+        .user-card-label {
+            color: #f00;
+            font-size: 0.85em;
+            letter-spacing: 2px;
+            margin-bottom: 4px;
+        }
+
+        .user-info {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .user-pfp {
+            width: 40px;
+            height: 40px;
+            border: 2px solid #0f0;
+            border-radius: 2px;
+            object-fit: cover;
+        }
+
+        .user-details {
+            flex: 1;
+        }
+
+        .user-name {
+            color: #0f0;
+            font-size: 1.2em;
+        }
+
+        .user-fid {
+            color: #666;
+            font-size: 0.85em;
+        }
+
+        /* Stats grid */
+        .stats-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 8px;
+        }
+
+        .stat-box {
+            border: 1px solid #0f0;
+            padding: 10px;
+            text-align: center;
+        }
+
+        .stat-number {
+            font-size: 2em;
+            color: #0f0;
+            line-height: 1;
+        }
+
+        .stat-label {
+            font-size: 0.8em;
+            color: #f00;
+            letter-spacing: 2px;
+            margin-top: 2px;
+        }
+
+        /* Wallet section */
+        .wallet-section {
+            border: 1px solid #0f0;
+            padding: 12px;
+        }
+
+        .section-label {
+            color: #f00;
+            font-size: 0.85em;
+            letter-spacing: 2px;
+            margin-bottom: 8px;
+        }
+
+        .wallet-status {
+            font-size: 1.1em;
+            color: #0f0;
+            margin-bottom: 8px;
+            min-height: 1.4em;
+        }
+
+        .wallet-address {
+            font-size: 0.85em;
+            color: #666;
+            word-break: break-all;
+            margin-bottom: 8px;
+        }
+
+        .btn {
+            display: block;
+            width: 100%;
+            padding: 10px;
+            font-family: 'VT323', monospace;
+            font-size: 1.3em;
+            letter-spacing: 2px;
+            cursor: pointer;
+            border: 2px solid #0f0;
+            background: #000;
+            color: #0f0;
+            text-align: center;
+            text-decoration: none;
+            transition: background 0.15s, color 0.15s;
+            margin-bottom: 6px;
+        }
+
+        .btn:hover, .btn:focus {
+            background: #0f0;
+            color: #000;
+        }
+
+        .btn-danger {
+            border-color: #f00;
+            color: #f00;
+        }
+
+        .btn-danger:hover, .btn-danger:focus {
+            background: #f00;
+            color: #000;
+        }
+
+        .btn-base {
+            border-color: #0052ff;
+            color: #0052ff;
+        }
+
+        .btn-base:hover, .btn-base:focus {
+            background: #0052ff;
+            color: #fff;
+        }
+
+        /* Actions grid */
+        .actions-grid {
+            display: flex;
+            flex-direction: column;
+            gap: 6px;
+        }
+
+        /* Terminal output */
+        .terminal {
+            border: 1px solid #0f0;
+            padding: 10px;
+            font-size: 0.9em;
+            min-height: 80px;
+            background: #000;
+        }
+
+        .terminal-line {
+            color: #0f0;
+            margin-bottom: 4px;
+        }
+
+        .terminal-line::before {
+            content: '> ';
+            color: #f00;
+        }
+
+        .terminal-line.error {
+            color: #f00;
+        }
+
+        .terminal-line.error::before {
+            content: '! ';
+            color: #f00;
+        }
+
+        /* Base chain badge */
+        .base-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 4px;
+            border: 1px solid #0052ff;
+            color: #0052ff;
+            padding: 4px 10px;
+            font-size: 0.85em;
+            letter-spacing: 2px;
+        }
+
+        .network-row {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-top: 4px;
+        }
+
+        /* Footer */
+        .footer {
+            text-align: center;
+            font-size: 0.75em;
+            color: #333;
+            padding-bottom: 16px;
+            letter-spacing: 1px;
+        }
+
+        /* NFT preview strip */
+        .nft-strip {
+            border: 1px solid #0f0;
+            padding: 10px;
+            overflow: hidden;
+        }
+
+        .nft-strip-inner {
+            display: flex;
+            gap: 8px;
+            overflow-x: auto;
+            scrollbar-width: none;
+            -ms-overflow-style: none;
+        }
+
+        .nft-strip-inner::-webkit-scrollbar { display: none; }
+
+        .nft-thumb {
+            flex-shrink: 0;
+            width: 80px;
+            height: 80px;
+            border: 1px solid #0f0;
+            object-fit: cover;
+            filter: grayscale(1) contrast(1.2);
+        }
+
+        /* Save frame button pulse */
+        .btn-save {
+            animation: pulse-border 2.5s infinite;
+        }
+    </style>
+</head>
+<body>
+    <div class="frame-container">
+
+        <!-- Header -->
+        <div class="header">
+            <div class="title-main">GOODLUMS</div>
+            <div class="title-sub">POST-APOCALYPTIC INTERNET GANG</div>
+        </div>
+
+        <!-- Farcaster User Card (shown when running inside Farcaster) -->
+        <div class="user-card" id="userCard">
+            <div class="user-card-label">MEMBER IDENTIFIED</div>
+            <div class="user-info">
+                <img class="user-pfp" id="userPfp" src="" alt="pfp">
+                <div class="user-details">
+                    <div class="user-name" id="userName">---</div>
+                    <div class="user-fid" id="userFid">FID: ---</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Stats -->
+        <div class="stats-grid">
+            <div class="stat-box">
+                <div class="stat-number">500</div>
+                <div class="stat-label">SUSPECTS</div>
+            </div>
+            <div class="stat-box">
+                <div class="stat-number">BASE</div>
+                <div class="stat-label">CHAIN</div>
+            </div>
+            <div class="stat-box">
+                <div class="stat-number">V4</div>
+                <div class="stat-label">HOOD PASS</div>
+            </div>
+            <div class="stat-box">
+                <div class="stat-number">60</div>
+                <div class="stat-label">PASSES LEFT</div>
+            </div>
+        </div>
+
+        <!-- Wallet Connect -->
+        <div class="wallet-section">
+            <div class="section-label">WALLET STATUS</div>
+            <div class="wallet-status" id="walletStatus">NOT CONNECTED</div>
+            <div class="wallet-address" id="walletAddress"></div>
+            <div class="network-row">
+                <span class="base-badge" id="networkBadge" style="display:none">● BASE MAINNET</span>
+            </div>
+            <button class="btn" id="connectBtn">
+                ⚡ CONNECT WALLET
+            </button>
+        </div>
+
+        <!-- Terminal log -->
+        <div class="terminal" id="terminal">
+            <div class="terminal-line">LOADING GOODLUMS DATA...</div>
+            <div class="terminal-line">CONNECTING TO BASE CHAIN...</div>
+        </div>
+
+        <!-- Action Buttons -->
+        <div class="actions-grid">
+            <button class="btn btn-save" id="saveFrameBtn">
+                🟣 ADD TO FARCASTER
+            </button>
+            <a class="btn btn-danger" id="openSeaBtn" href="https://opensea.io/collection/thegoodlums" target="_blank" rel="noopener noreferrer">
+                🌊 BUY ON OPENSEA
+            </a>
+            <a class="btn" id="farcasterChannelBtn" href="https://farcaster.xyz/~/channel/thegoodlums" target="_blank" rel="noopener noreferrer">
+                🟣 JOIN /THEGOODLUMS CHANNEL
+            </a>
+            <a class="btn btn-base" id="hoodPassBtn" href="https://mint.club/token/base/HOODPASS" target="_blank" rel="noopener noreferrer">
+                🎟️ GET HOOD PASS (BASE)
+            </a>
+            <a class="btn" id="fullDbBtn" href="https://normancomics.github.io/THEGOODLUMS/" target="_blank" rel="noopener noreferrer">
+                📋 FULL DATABASE
+            </a>
+        </div>
+
+        <div class="footer">
+            NO NEW MEMBERS · WE ARE FULL · thegoodlums
+        </div>
+
+    </div>
+
+    <script type="module">
+        import { sdk } from 'https://esm.sh/@farcaster/frame-sdk';
+
+        // Base mainnet chain ID constants
+        const BASE_CHAIN_ID_HEX = '0x2105';   // 8453 decimal
+        const BASE_CHAIN_ID_DEC = 8453;
+
+        const terminal = document.getElementById('terminal');
+        let provider = null;
+        let accounts = [];
+
+        function log(message, isError = false) {
+            const line = document.createElement('div');
+            line.className = 'terminal-line' + (isError ? ' error' : '');
+            line.textContent = message;
+            terminal.appendChild(line);
+            terminal.scrollTop = terminal.scrollHeight;
+        }
+
+        async function connectWallet() {
+            try {
+                // Prefer Farcaster SDK provider, fall back to window.ethereum
+                if (!provider) {
+                    if (sdk.wallet?.ethProvider) {
+                        provider = sdk.wallet.ethProvider;
+                    } else if (window.ethereum) {
+                        provider = window.ethereum;
+                    } else {
+                        log('NO WALLET FOUND — CONNECT A WEB3 WALLET', true);
+                        return;
+                    }
+                }
+                log('REQUESTING ACCOUNTS...');
+                const accts = await provider.request({ method: 'eth_requestAccounts' });
+                await onConnected(accts);
+            } catch (err) {
+                log('CONNECTION FAILED: ' + (err.message || err), true);
+            }
+        }
+
+        async function saveFrame() {
+            try {
+                if (sdk.actions?.addFrame) {
+                    await sdk.actions.addFrame();
+                    log('FRAME SAVED TO FARCASTER');
+                } else {
+                    log('OPEN IN FARCASTER TO SAVE FRAME', true);
+                }
+            } catch (err) {
+                log('COULD NOT SAVE FRAME: ' + (err.message || err), true);
+            }
+        }
+
+        async function openLink(event) {
+            // Use Farcaster SDK openUrl when available so links open in the system browser
+            // rather than inside the mini-app webview.
+            const url = event.currentTarget.href;
+            if (sdk.actions?.openUrl) {
+                event.preventDefault();
+                try {
+                    await sdk.actions.openUrl(url);
+                } catch (_) {
+                    window.open(url, '_blank', 'noopener,noreferrer');
+                }
+            }
+            // Otherwise fall through to the default <a href> behaviour
+        }
+
+        async function onConnected(accts) {
+            accounts = accts;
+            const addr = accounts[0];
+            const short = addr.slice(0, 6) + '...' + addr.slice(-4);
+            document.getElementById('walletStatus').textContent = '✓ CONNECTED';
+            document.getElementById('walletAddress').textContent = addr;
+            const btn = document.getElementById('connectBtn');
+            btn.textContent = '✓ WALLET LINKED';
+            btn.disabled = true;
+
+            // Check and switch to Base network if needed
+            try {
+                const chainId = await provider.request({ method: 'eth_chainId' });
+                const chainIdNum = parseInt(chainId, 16);
+                if (chainIdNum === BASE_CHAIN_ID_DEC) {
+                    document.getElementById('networkBadge').style.display = 'inline-flex';
+                    log(`BASE MAINNET DETECTED (chainId: ${chainIdNum})`);
+                } else {
+                    log(`CHAIN ${chainIdNum} DETECTED — SWITCH TO BASE (${BASE_CHAIN_ID_DEC})`, true);
+                    try {
+                        await provider.request({
+                            method: 'wallet_switchEthereumChain',
+                            params: [{ chainId: BASE_CHAIN_ID_HEX }]
+                        });
+                        document.getElementById('networkBadge').style.display = 'inline-flex';
+                        log('SWITCHED TO BASE MAINNET');
+                    } catch (switchErr) {
+                        log('COULD NOT SWITCH CHAIN — CHECK WALLET', true);
+                    }
+                }
+            } catch (_) {}
+
+            log(`WALLET: ${short}`);
+        }
+
+        async function init() {
+            try {
+                // Retrieve Farcaster context
+                const context = await sdk.context;
+
+                if (context && context.user) {
+                    const user = context.user;
+                    document.getElementById('userName').textContent =
+                        user.displayName || user.username || `FID:${user.fid}`;
+                    document.getElementById('userFid').textContent = `FID: ${user.fid}`;
+                    if (user.pfpUrl) {
+                        document.getElementById('userPfp').src = user.pfpUrl;
+                    }
+                    document.getElementById('userCard').classList.add('visible');
+                    log(`MEMBER IDENTIFIED: ${user.username || user.fid}`);
+
+                    // Auto-connect wallet only when confirmed inside Farcaster with a known user.
+                    // Reuses connectWallet() so the account-request and onConnected logic
+                    // lives in a single place.
+                    if (sdk.wallet?.ethProvider) {
+                        log('FARCASTER WALLET DETECTED');
+                        await connectWallet();
+                    }
+                } else {
+                    log('CONTEXT: EXTERNAL BROWSER');
+                }
+
+                // Signal mini-app is ready — dismisses splash screen
+                await sdk.actions.ready();
+                log('GOODLUMS MINI-APP ACTIVE');
+
+            } catch (err) {
+                log('FARCASTER SDK UNAVAILABLE — BROWSER MODE', true);
+                // Signal ready anyway in case we're still inside a frame
+                try { await sdk.actions.ready(); } catch (_) {}
+            }
+        }
+
+        // Wire up event listeners after DOM is ready
+        document.getElementById('connectBtn').addEventListener('click', connectWallet);
+        document.getElementById('saveFrameBtn').addEventListener('click', saveFrame);
+        ['openSeaBtn', 'farcasterChannelBtn', 'hoodPassBtn', 'fullDbBtn'].forEach(id => {
+            document.getElementById(id).addEventListener('click', openLink);
+        });
+
+        init();
+    </script>
+</body>
+</html>
