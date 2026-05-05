@@ -1,0 +1,31 @@
+{
+  "name": "thegoodlums-dapp",
+  "version": "1.0.0",
+  "description": "The GoodLums – post-apocalyptic internet gang NFT dApp on Base chain",
+  "private": true,
+  "scripts": {
+    "fetch-nfts": "node fetch-nfts.js",
+    "update": "npm run fetch-nfts",
+    "dev": "npx serve . --listen 8080",
+    "build": "bash scripts/build.sh",
+    "test": "bash scripts/ci.sh",
+    "openmythos:lore": "node openmythos/generate-lore.js",
+    "openmythos:readme": "node openmythos/generate-readme.js"
+  },
+  "keywords": [
+    "nft",
+    "base-chain",
+    "web3",
+    "thegoodlums",
+    "opensea"
+  ],
+  "author": "normancomics.eth",
+  "license": "MIT",
+  "engines": {
+    "node": ">=18.0.0"
+  },
+  "dependencies": {},
+  "devDependencies": {
+    "serve": "^14.2.4"
+  }
+}
