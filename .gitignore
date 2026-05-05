@@ -1,0 +1,9 @@
+# Environment secrets — NEVER commit the real .env
+.env
+
+# Node modules
+node_modules/
+
+# OS
+.DS_Store
+Thumbs.db
