@@ -206,11 +206,19 @@
             position: relative;
         }
 
-        .social-btn svg {
-            width: 22px;
-            height: 22px;
-            fill: currentColor;
-            transition: fill .2s;
+        .social-btn img {
+            width: 24px;
+            height: 24px;
+            display: block;
+            object-fit: contain;
+            /* invert to white so icons show on dark buttons */
+            filter: brightness(0) invert(1);
+            transition: filter .2s;
+        }
+
+        .social-btn:hover img {
+            /* restore original color on hover (brand bg handles contrast) */
+            filter: none;
         }
 
         .social-btn:hover {
@@ -390,50 +398,152 @@
         .ember:nth-child(3) { left: 15px; --ex: 3px; animation-delay: .8s; }
         .ember:nth-child(4) { left: 38px; --ex: -5px; animation-delay: .2s; }
 
-        /* Cardboard sign */
-        .cardboard-sign {
-            background: #c8a96e;
-            background-image:
-                repeating-linear-gradient(0deg, rgba(0,0,0,.04) 0, rgba(0,0,0,.04) 1px, transparent 1px, transparent 4px),
-                repeating-linear-gradient(90deg, rgba(0,0,0,.03) 0, rgba(0,0,0,.03) 1px, transparent 1px, transparent 4px);
-            border: 3px solid #7a5c2e;
-            padding: 10px 12px;
-            width: 160px;
-            font-family: 'Bangers', cursive;
-            font-size: 1em;
-            line-height: 1.4;
-            color: #1a0d00;
-            text-align: center;
-            letter-spacing: 1px;
-            cursor: pointer;
-            animation: sign-sway 3s ease-in-out infinite;
-            transform-origin: top center;
-            box-shadow: 3px 3px 0 rgba(0,0,0,.4), inset 0 0 15px rgba(0,0,0,.1);
-            border-radius: 3px;
-            position: relative;
-            transition: filter .2s;
+        /* ─── NEON SIGN (replaces cardboard sign) ───── */
+        @keyframes neon-main-flicker {
+            0%,18%,22%,25%,53%,57%,100% {
+                text-shadow:
+                    0 0 4px #fff,
+                    0 0 11px #fff,
+                    0 0 19px #fff,
+                    0 0 40px #ff00aa,
+                    0 0 80px #ff00aa,
+                    0 0 90px #ff00aa,
+                    0 0 120px #ff00aa;
+                opacity: 1;
+            }
+            20%,24%,55% { text-shadow: none; opacity: 0.3; }
         }
 
-        .cardboard-sign::before {
+        @keyframes neon-sub-flicker {
+            0%,29%,33%,100% {
+                text-shadow:
+                    0 0 4px #fff,
+                    0 0 11px #fff,
+                    0 0 19px #fff,
+                    0 0 40px #00e5ff,
+                    0 0 80px #00e5ff,
+                    0 0 100px #00e5ff;
+                opacity: 1;
+            }
+            30%,32% { text-shadow: none; opacity: 0.25; }
+        }
+
+        @keyframes neon-border-pulse {
+            0%,100% { box-shadow: 0 0 4px #ff00aa, 0 0 12px #ff00aa, 0 0 24px #ff00aa, inset 0 0 10px rgba(255,0,170,.06); }
+            50%     { box-shadow: 0 0 8px #ff00aa, 0 0 24px #ff00aa, 0 0 48px #ff00aa, inset 0 0 20px rgba(255,0,170,.1); }
+        }
+
+        .neon-sign {
+            background: #06000d;
+            border: 3px solid #ff00aa;
+            border-radius: 6px;
+            padding: 14px 14px 12px;
+            width: 172px;
+            cursor: pointer;
+            position: relative;
+            animation: sign-sway 3s ease-in-out infinite, neon-border-pulse 4s ease-in-out infinite;
+            transform-origin: top center;
+            outline: none;
+            text-align: center;
+        }
+
+        /* inner inset border for neon tube effect */
+        .neon-sign::before {
             content: '';
             position: absolute;
-            top: -14px;
-            left: 50%;
-            transform: translateX(-50%);
-            width: 3px;
-            height: 14px;
-            background: #7a5c2e;
+            inset: 5px;
+            border: 1px solid rgba(255,0,170,.25);
+            border-radius: 3px;
+            pointer-events: none;
         }
 
-        .cardboard-sign:hover { filter: brightness(1.1); }
-        .cardboard-sign:focus-visible { outline: 2px dashed #ff5500; }
+        /* corner dots — screw hole detail */
+        .neon-sign::after {
+            content: '• • • •';
+            position: absolute;
+            top: -1px;
+            left: 50%;
+            transform: translateX(-50%);
+            font-size: .35em;
+            letter-spacing: 10px;
+            color: rgba(255,0,170,.4);
+            pointer-events: none;
+        }
 
-        .sign-eth {
-            font-size: 1.4em;
-            color: #cc3300;
+        .neon-en {
+            font-family: 'Bangers', cursive;
+            font-size: 1.2em;
+            letter-spacing: 3px;
+            color: #ffaadd;
+            text-shadow:
+                0 0 4px #fff,
+                0 0 10px #ff00aa,
+                0 0 25px #ff00aa,
+                0 0 50px #ff00aa;
+            animation: neon-main-flicker 8s infinite;
             display: block;
-            margin-bottom: 4px;
-            text-shadow: 1px 1px 0 rgba(0,0,0,.3);
+            line-height: 1.35;
+            text-transform: uppercase;
+        }
+
+        .neon-divider {
+            height: 1px;
+            background: linear-gradient(90deg, transparent, #00e5ff 30%, #00e5ff 70%, transparent);
+            box-shadow: 0 0 6px #00e5ff, 0 0 12px #00e5ff;
+            margin: 9px 0;
+        }
+
+        .neon-jp {
+            font-size: .95em;
+            color: #aaeeff;
+            text-shadow:
+                0 0 4px #fff,
+                0 0 10px #00e5ff,
+                0 0 25px #00e5ff;
+            animation: neon-sub-flicker 6s infinite;
+            display: block;
+            line-height: 1.55;
+            letter-spacing: 2px;
+        }
+
+        .neon-sign:hover {
+            filter: brightness(1.18) saturate(1.2);
+        }
+
+        .neon-sign:focus-visible {
+            outline: 2px dashed #ff00aa;
+            outline-offset: 4px;
+        }
+
+        .neon-sign-wire {
+            width: 2px;
+            height: 18px;
+            background: linear-gradient(#555, #888);
+            margin: 0 auto;
+            position: relative;
+        }
+
+        .neon-sign-wire::before,
+        .neon-sign-wire::after {
+            content: '';
+            position: absolute;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+        }
+
+        .neon-sign-wire::before {
+            top: -4px;
+            background: #888;
+            box-shadow: 0 0 4px #fff;
+        }
+
+        .neon-sign-wire::after {
+            bottom: -4px;
+            background: #ff00aa;
+            box-shadow: 0 0 6px #ff00aa, 0 0 12px #ff00aa;
         }
 
         /* ─── PAYMENT MODAL ─────────────────────────── */
@@ -1942,29 +2052,47 @@
 </nav>
 
 <!-- Fixed Social Sidebar -->
+<!--
+  SOCIAL ICON PNG SOURCES
+  Replace each src="" below with your IPFS-hosted PNG links.
+  CDN fallbacks are in place until you swap them.
+  Discord    → your IPFS PNG CID
+  X/Twitter  → your IPFS PNG CID
+  Farcaster  → your IPFS PNG CID
+  Telegram   → your IPFS PNG CID
+  OpenSea    → your IPFS PNG CID
+  Icebreaker → your IPFS PNG CID
+-->
 <aside class="social-sidebar" aria-label="Social links">
     <a href="https://discord.gg/bdAuGjBy7" target="_blank" class="social-btn soc-discord" aria-label="Discord">
-        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M20.317 4.37a19.791 19.791 0 0 0-4.885-1.515.074.074 0 0 0-.079.037c-.21.375-.444.864-.608 1.25a18.27 18.27 0 0 0-5.487 0 12.64 12.64 0 0 0-.617-1.25.077.077 0 0 0-.079-.037A19.736 19.736 0 0 0 3.677 4.37a.07.07 0 0 0-.032.027C.533 9.046-.32 13.58.099 18.057a.082.082 0 0 0 .031.057 19.9 19.9 0 0 0 5.993 3.03.078.078 0 0 0 .084-.028c.462-.63.874-1.295 1.226-1.994a.076.076 0 0 0-.041-.106 13.107 13.107 0 0 1-1.872-.892.077.077 0 0 1-.008-.128 10.2 10.2 0 0 0 .372-.292.074.074 0 0 1 .077-.01c3.928 1.793 8.18 1.793 12.062 0a.074.074 0 0 1 .078.01c.12.098.246.198.373.292a.077.077 0 0 1-.006.127 12.299 12.299 0 0 1-1.873.892.077.077 0 0 0-.041.107c.36.698.772 1.362 1.225 1.993a.076.076 0 0 0 .084.028 19.839 19.839 0 0 0 6.002-3.03.077.077 0 0 0 .032-.054c.5-5.177-.838-9.674-3.549-13.66a.061.061 0 0 0-.031-.03zM8.02 15.33c-1.183 0-2.157-1.085-2.157-2.419 0-1.333.956-2.419 2.157-2.419 1.21 0 2.176 1.096 2.157 2.42 0 1.333-.956 2.418-2.157 2.418zm7.975 0c-1.183 0-2.157-1.085-2.157-2.419 0-1.333.955-2.419 2.157-2.419 1.21 0 2.176 1.096 2.157 2.42 0 1.333-.946 2.418-2.157 2.418z"/></svg>
+        <!-- REPLACE src with your IPFS Discord PNG -->
+        <img src="https://cdn.simpleicons.org/discord/ffffff" alt="Discord" width="24" height="24">
         <span class="social-tooltip">DISCORD</span>
     </a>
     <a href="https://x.com/thegoodlums" target="_blank" class="social-btn soc-x" aria-label="X / Twitter">
-        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-4.714-6.231-5.401 6.231H2.74l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg>
+        <!-- REPLACE src with your IPFS X/Twitter PNG -->
+        <img src="https://cdn.simpleicons.org/x/ffffff" alt="X / Twitter" width="24" height="24">
         <span class="social-tooltip">X / TWITTER</span>
     </a>
     <a href="https://warpcast.com/~/channel/thegoodlums" target="_blank" class="social-btn soc-farcaster" aria-label="Farcaster">
-        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M11.49.694H3.606v22.612h3.34v-9.978h.032c.187-2.72 2.444-4.874 5.217-4.874 2.773 0 5.03 2.154 5.217 4.874h.033v9.978h3.34V.694h-7.884zm5.515 3.34H7.004v3.226h9.998V4.034z"/></svg>
+        <!-- REPLACE src with your IPFS Farcaster PNG -->
+        <img src="https://cdn.simpleicons.org/farcaster/ffffff" alt="Farcaster" width="24" height="24">
         <span class="social-tooltip">FARCASTER</span>
     </a>
     <a href="https://t.me/thegoodlums" target="_blank" class="social-btn soc-telegram" aria-label="Telegram">
-        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M11.944 0A12 12 0 0 0 0 12a12 12 0 0 0 12 12 12 12 0 0 0 12-12A12 12 0 0 0 12 0a12 12 0 0 0-.056 0zm4.962 7.224c.1-.002.321.023.465.14a.506.506 0 0 1 .171.325c.016.093.036.306.02.472-.18 1.898-.962 6.502-1.36 8.627-.168.9-.499 1.201-.82 1.23-.696.065-1.225-.46-1.9-.902-1.056-.693-1.653-1.124-2.678-1.8-1.185-.78-.417-1.21.258-1.91.177-.184 3.247-2.977 3.307-3.23.007-.032.014-.15-.056-.212s-.174-.041-.249-.024c-.106.024-1.793 1.14-5.061 3.345-.48.33-.913.49-1.302.48-.428-.008-1.252-.241-1.865-.44-.752-.245-1.349-.374-1.297-.789.027-.216.325-.437.893-.663 3.498-1.524 5.83-2.529 6.998-3.014 3.332-1.386 4.025-1.627 4.476-1.635z"/></svg>
+        <!-- REPLACE src with your IPFS Telegram PNG -->
+        <img src="https://cdn.simpleicons.org/telegram/ffffff" alt="Telegram" width="24" height="24">
         <span class="social-tooltip">TELEGRAM</span>
     </a>
     <a href="https://opensea.io/collection/thegoodlums" target="_blank" class="social-btn soc-opensea" aria-label="OpenSea">
-        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 0C5.374 0 0 5.374 0 12s5.374 12 12 12 12-5.374 12-12S18.629 0 12 0ZM5.92 12.403l.051-.081 3.123-4.884a.107.107 0 0 1 .187.014c.52 1.169.972 2.623.76 3.528-.088.372-.335.876-.614 1.342a2.405 2.405 0 0 1-.117.199.106.106 0 0 1-.09.045H6.013a.106.106 0 0 1-.091-.163zm13.914 1.68a.109.109 0 0 1-.065.101c-.243.103-1.07.485-1.414.962-.878 1.222-1.548 2.97-3.048 2.97H8.053a4.019 4.019 0 0 1-4.013-4.028v-.072c0-.058.048-.106.108-.106h3.485c.07 0 .12.063.115.132-.026.226.017.459.126.663.207.4.62.647 1.064.647h1.672v-1.286H8.154a.11.11 0 0 1-.089-.173l.063-.09c.16-.231.391-.586.621-.992.156-.274.308-.566.43-.86.024-.056.045-.114.065-.171.033-.094.067-.182.091-.269a4.57 4.57 0 0 0 .065-.223c.057-.25.081-.514.081-.787 0-.108-.004-.222-.014-.327-.005-.112-.019-.223-.034-.334a3.615 3.615 0 0 0-.048-.301 6.888 6.888 0 0 0-.098-.468l-.014-.06c-.03-.108-.056-.21-.09-.317a12.6 12.6 0 0 0-.612-1.524 9.442 9.442 0 0 0-.278-.56 5.66 5.66 0 0 0-.104-.197 4.662 4.662 0 0 0-.106-.191.453.453 0 0 1-.04-.081l-.018-.071a.127.127 0 0 1 .037-.137.127.127 0 0 1 .143-.011l3.39 1.787a.127.127 0 0 1 .065.088c.033.141.069.277.108.408.117.392.25.768.394 1.12.048.117.097.232.147.344.235.527.495.987.776 1.371.07.094.14.186.212.273.1.125.203.24.308.347.063.066.127.128.192.188.12.108.244.204.372.29.128.087.26.163.395.228a1.9 1.9 0 0 0 .498.157c.05.009.1.013.15.013a1.8 1.8 0 0 0 .342-.033c.114-.022.225-.059.33-.11a1.81 1.81 0 0 0 .276-.171c.023-.018.047-.037.069-.057a1.764 1.764 0 0 0 .218-.22 1.78 1.78 0 0 0 .15-.24 1.75 1.75 0 0 0 .085-.218 1.76 1.76 0 0 0 .055-.22c.01-.05.017-.1.021-.15a1.804 1.804 0 0 0-.022-.424 1.78 1.78 0 0 0-.054-.225 1.75 1.75 0 0 0-.085-.218 1.766 1.766 0 0 0-.398-.553 1.79 1.79 0 0 0-.276-.2 1.806 1.806 0 0 0-.33-.136 1.819 1.819 0 0 0-.367-.061 1.828 1.828 0 0 0-.756.1 1.811 1.811 0 0 0-.326.156 1.794 1.794 0 0 0-.265.218 1.773 1.773 0 0 0-.2.274 1.751 1.751 0 0 0-.129.33 1.73 1.73 0 0 0-.046.369c0 .065.005.13.015.194h-1.79a3.617 3.617 0 0 1 .015-.194 3.65 3.65 0 0 1 .278-1.141 3.638 3.638 0 0 1 .62-.934 3.62 3.62 0 0 1 .903-.669 3.605 3.605 0 0 1 1.111-.338 3.614 3.614 0 0 1 1.178.04 3.62 3.62 0 0 1 1.08.427 3.635 3.635 0 0 1 .844.752 3.648 3.648 0 0 1 .545 1.012 3.66 3.66 0 0 1 .175 1.133 3.655 3.655 0 0 1-.204 1.12 3.641 3.641 0 0 1-.572.992 3.625 3.625 0 0 1-.874.74 3.61 3.61 0 0 1-1.087.41 3.604 3.604 0 0 1-1.174.018 3.61 3.61 0 0 1-1.102-.37 3.623 3.623 0 0 1-.878-.697 3.635 3.635 0 0 1-.574-.97l-.001-.003h1.809c.06.151.136.295.228.428.138.197.303.37.488.516.184.145.387.263.602.348.215.085.442.134.673.143H15.6v1.286h-1.672a2.34 2.34 0 0 1-1.162-.307 2.33 2.33 0 0 1-.832-.838 2.314 2.314 0 0 1-.31-1.097H9.858c0 1.114.902 2.018 2.015 2.018h2.983c1.113 0 2.015-.904 2.015-2.018v-.007a2.326 2.326 0 0 1-.007-.18c-.001-.057.002-.114.007-.17h.88a.108.108 0 0 1 .083.177z"/></svg>
+        <!-- REPLACE src with your IPFS OpenSea PNG -->
+        <img src="https://cdn.simpleicons.org/opensea/ffffff" alt="OpenSea" width="24" height="24">
         <span class="social-tooltip">OPENSEA</span>
     </a>
     <a href="https://app.icebreaker.xyz/channels/thegoodlums" target="_blank" class="social-btn soc-icebreaker" aria-label="Icebreaker">
-        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2L9.5 7H4l4.25 3.09L6.5 15 12 11.5 17.5 15l-1.75-4.91L20 7h-5.5L12 2zm0 3.06l1.42 3.18 3.45-.01-2.79 2.02 1.06 3.29L12 11.85 8.86 13.54l1.06-3.29L7.13 8.23l3.45.01L12 5.06z"/></svg>
+        <!-- REPLACE src with your IPFS Icebreaker PNG -->
+        <img src="https://cdn.simpleicons.org/icebreaker/ffffff" alt="Icebreaker" width="24" height="24"
+             onerror="this.style.display='none'">
         <span class="social-tooltip">ICEBREAKER</span>
     </a>
 </aside>
@@ -1991,11 +2119,11 @@
         </div>
         <div class="trashcan-base"></div>
     </div>
-    <button class="cardboard-sign" onclick="openDonateModal()" aria-label="Open donation options">
-        <span class="sign-eth">Ξ 0.1 ETH</span>
-        THE GOODLUMS GANG ACCEPTS ALL SORTS OF INTERNET MONIES!<br>
-        DONATE TO A POST-APOCALYPTIC-INTERNET-GANG TODAY!<br>
-        <small>*501-3c TAX DEDUCTABLE</small>
+    <div class="neon-sign-wire"></div>
+    <button class="neon-sign" onclick="openDonateModal()" aria-label="Open donation options — THE GOODLUMS accepts all internet monies">
+        <span class="neon-en">BUY THE<br>GOODLUMS<br>NOW!</span>
+        <div class="neon-divider"></div>
+        <span class="neon-jp">グッドラムズを<br>今すぐ買え！</span>
     </button>
 </div>
 
