@@ -2,9 +2,9 @@
   "frame": {
     "version": "1",
     "name": "THE GOODLUMS",
-    "iconUrl": "https://normancomics.github.io/THEGOODLUMS/icon.svg",
+    "iconUrl": "https://normancomics.github.io/THEGOODLUMS/icon.png",
     "homeUrl": "https://normancomics.github.io/THEGOODLUMS/frame.html",
-    "splashImageUrl": "https://normancomics.github.io/THEGOODLUMS/splash.svg",
+    "splashImageUrl": "https://normancomics.github.io/THEGOODLUMS/splash.png",
     "splashBackgroundColor": "#000000"
   }
 }
