@@ -3,7 +3,9 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>The GoodLums - Buy & Explore NFTs</title>
+    <title>The GoodLums - Traits Explorer</title>
+    <link href="https://fonts.googleapis.com/css2?family=VT323&family=Courier+Prime:wght@400;700&display=swap" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/ethers@5.7.2/dist/ethers.umd.min.js"></script>
     <style>
         * {
             margin: 0;
@@ -407,45 +409,78 @@
             }
         }
 
+        /* === CHUNKY 3D BUTTON SYSTEM === */
+        .chunky-btn {
+            display: inline-block;
+            padding: 14px 28px;
+            font-family: 'VT323', monospace;
+            font-size: 1.4em;
+            font-weight: bold;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            border: 4px solid #000;
+            cursor: pointer;
+            text-decoration: none;
+            text-align: center;
+            transition: transform 0.08s ease, box-shadow 0.08s ease;
+            position: relative;
+            outline: none;
+            user-select: none;
+        }
+        .chunky-btn:hover  { transform: translateY(-3px); }
+        .chunky-btn:active { transform: translateY(4px); }
+        .chunky-btn-primary {
+            background: #00ff00; color: #000;
+            box-shadow: 0 6px 0 #000, 0 10px 0 #007700, 0 14px 0 #000, 0 18px 22px rgba(0,0,0,0.55);
+        }
+        .chunky-btn-primary:hover  { box-shadow: 0 9px 0 #000, 0 13px 0 #007700, 0 17px 0 #000, 0 21px 28px rgba(0,0,0,0.55); }
+        .chunky-btn-primary:active { box-shadow: 0 2px 0 #000, 0 4px 0 #007700, 0 6px 18px rgba(0,0,0,0.45); }
+        .chunky-btn-secondary {
+            background: #ffff00; color: #000;
+            box-shadow: 0 6px 0 #000, 0 10px 0 #888800, 0 14px 0 #000, 0 18px 22px rgba(0,0,0,0.55);
+        }
+        .chunky-btn-secondary:hover  { box-shadow: 0 9px 0 #000, 0 13px 0 #888800, 0 17px 0 #000, 0 21px 28px rgba(0,0,0,0.55); }
+        .chunky-btn-secondary:active { box-shadow: 0 2px 0 #000, 0 4px 0 #888800, 0 6px 18px rgba(0,0,0,0.45); }
+        .chunky-btn-warning {
+            background: #ff2200; color: #fff;
+            box-shadow: 0 6px 0 #000, 0 10px 0 #880000, 0 14px 0 #000, 0 18px 22px rgba(0,0,0,0.55);
+        }
+        .chunky-btn-warning:hover  { box-shadow: 0 9px 0 #000, 0 13px 0 #880000, 0 17px 0 #000, 0 21px 28px rgba(0,0,0,0.55); }
+        .chunky-btn-warning:active { box-shadow: 0 2px 0 #000, 0 4px 0 #880000, 0 6px 18px rgba(0,0,0,0.45); }
+        .chunky-btn-success {
+            background: #00ffff; color: #000;
+            box-shadow: 0 6px 0 #000, 0 10px 0 #007777, 0 14px 0 #000, 0 18px 22px rgba(0,0,0,0.55);
+        }
+        .chunky-btn-success:hover  { box-shadow: 0 9px 0 #000, 0 13px 0 #007777, 0 17px 0 #000, 0 21px 28px rgba(0,0,0,0.55); }
+        .chunky-btn-success:active { box-shadow: 0 2px 0 #000, 0 4px 0 #007777, 0 6px 18px rgba(0,0,0,0.45); }
+
         @media (max-width: 768px) {
-            h1 {
-                font-size: 2.5em;
-            }
-
-            .traits-grid {
-                grid-template-columns: 1fr;
-            }
-
-            .stats {
-                flex-direction: column;
-                gap: 15px;
-            }
-
-            .header-actions {
-                flex-direction: column;
-            }
+            h1 { font-size: 2.5em; }
+            .traits-grid { grid-template-columns: 1fr; }
+            .stats { flex-direction: column; gap: 15px; }
+            .header-actions { flex-direction: column; }
         }
     </style>
 </head>
 <body>
     <div class="container">
         <header>
-            <h1>🌟 THE GOODLUMS 🌟</h1>
-            <p class="subtitle">Explore Traits & Buy NFTs Directly</p>
+            <h1 style="font-family:'VT323',monospace;letter-spacing:4px;">THE GOODLUMS</h1>
+            <p class="subtitle">Explore Traits &amp; Buy NFTs Directly</p>
             <div class="header-actions">
-                <a href="https://opensea.io/collection/thegoodlums" target="_blank" class="buy-button">
-                    💰 Buy GoodLums Now
+                <a href="https://opensea.io/collection/thegoodlums" target="_blank" class="chunky-btn chunky-btn-primary" style="font-size:1.1em;padding:12px 24px;">
+                    Buy GoodLums Now
                 </a>
-                <a href="https://opensea.io/collection/thegoodlums" target="_blank" class="collection-link">
-                    📊 View Full Collection
+                <a href="https://opensea.io/collection/thegoodlums" target="_blank" class="chunky-btn chunky-btn-secondary" style="font-size:1.1em;padding:12px 24px;">
+                    VIEW FULL COLLECTION
                 </a>
             </div>
         </header>
 
         <div class="wallet-section" id="walletSection">
-            <h3 style="margin-bottom: 15px;">🔐 Connect Wallet to Buy</h3>
-            <p style="opacity: 0.9; margin-bottom: 15px;">Connect your Web3 wallet for quick purchases</p>
-            <button class="wallet-button" id="connectWallet">Connect Wallet</button>
+            <h3 style="margin-bottom: 15px; font-family:'VT323',monospace; letter-spacing:3px; font-size:1.6em;">CONNECT WALLET TO BUY</h3>
+            <p style="opacity: 0.9; margin-bottom: 20px;">Connect your Web3 wallet for quick purchases</p>
+            <button class="chunky-btn chunky-btn-primary" id="connectWallet" onclick="connectWalletExplorer()" style="font-size:1.2em;padding:14px 30px;">Connect Wallet</button>
             <div class="wallet-address" id="walletAddress" style="display: none;"></div>
         </div>
 
@@ -596,7 +631,7 @@
         let walletConnected = false;
         let userAddress = '';
 
-        document.getElementById('connectWallet').addEventListener('click', async () => {
+        async function connectWalletExplorer() {
             if (typeof window.ethereum !== 'undefined') {
                 try {
                     const accounts = await window.ethereum.request({ method: 'eth_requestAccounts' });
@@ -605,10 +640,13 @@
                     
                     document.getElementById('walletAddress').textContent = `Connected: ${userAddress.slice(0, 6)}...${userAddress.slice(-4)}`;
                     document.getElementById('walletAddress').style.display = 'block';
-                    document.getElementById('connectWallet').textContent = 'Wallet Connected ✓';
-                    document.getElementById('connectWallet').disabled = true;
+                    const btn = document.getElementById('connectWallet');
+                    btn.textContent = 'WALLET CONNECTED';
+                    btn.classList.remove('chunky-btn-primary');
+                    btn.classList.add('chunky-btn-success');
+                    btn.disabled = true;
                     
-                    showNotification('Wallet connected successfully! 🎉');
+                    showNotification('Wallet connected successfully!');
                 } catch (error) {
                     showNotification('Failed to connect wallet. Please try again.', 'error');
                 }
@@ -618,7 +656,7 @@
                     window.open('https://metamask.io/download/', '_blank');
                 }, 2000);
             }
-        });
+        }
 
         // Show notification
         function showNotification(message, type = 'success') {
@@ -674,11 +712,11 @@
                         </div>
                         <div class="rarity-indicator rarity-${rarity}">${rarityLabel}</div>
                         <div class="trait-buttons">
-                            <a href="${buyUrl}" target="_blank" class="trait-button buy">
-                                💰 Buy Now
+                            <a href="${buyUrl}" target="_blank" class="chunky-btn chunky-btn-warning" style="font-size:1em;padding:8px 14px;">
+                                BUY NOW
                             </a>
-                            <a href="${searchUrl}" target="_blank" class="trait-button view">
-                                👁️ View Listings
+                            <a href="${searchUrl}" target="_blank" class="chunky-btn chunky-btn-secondary" style="font-size:1em;padding:8px 14px;">
+                                VIEW
                             </a>
                         </div>
                     </div>
