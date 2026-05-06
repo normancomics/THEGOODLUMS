@@ -1,0 +1,7 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="200" height="200" viewBox="0 0 200 200">
+  <rect width="200" height="200" fill="#000000"/>
+  <rect x="8" y="8" width="184" height="184" fill="none" stroke="#00ff00" stroke-width="3"/>
+  <rect x="14" y="14" width="172" height="172" fill="none" stroke="#ff0000" stroke-width="1"/>
+  <text x="100" y="118" font-family="monospace,Courier New,Courier" font-size="72" font-weight="bold" fill="#00ff00" text-anchor="middle" letter-spacing="-4">GL</text>
+  <text x="100" y="148" font-family="monospace,Courier New,Courier" font-size="14" fill="#ff0000" text-anchor="middle" letter-spacing="2">GOODLUMS</text>
+</svg>
